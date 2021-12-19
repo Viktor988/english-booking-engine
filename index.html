@@ -199,9 +199,24 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-3 pt-3 pb-3">
-                            <b class="font-size-14">Promocode</b><br>
-                            <button class="btn bg-white text-dark btn-sm font-size-12">Enter promocode</button>
+                        <div class="col-md-3 pt-3 pb-3 bg-bright-yellow-tint">
+                            <b class="font-size-14 text-bright-yellow">Promocode</b><br>
+                            <!-- <button class="btn bg-white text-dark btn-sm font-size-12">Enter promocode</button> -->
+                            <div class="dropdown">
+                                <button class="btn bg-bright-yellow-tint text-dark btn-sm dropdown-toggle p-1" type="button"
+                                    id="enterPromocode" data-bs-toggle="dropdown" aria-expanded="false" onclick="setFocus('promocode')">
+                                    <span class="font-size-12">Enter Promocode</span>
+                                </button>
+                                <ul class="dropdown-menu promocode-dropdown" aria-labelledby="enterPromocode">
+                                    <div class="form-floating m-3 input-group">
+                                        <input type="text" class="form-control border-radius-10 border-end-0 p-2" id="promocode" />
+                                        <label for="promocode" class="form-label">Promocode</label>
+                                        <div class="input-group-text p-0 bg-white border-radius-10">
+                                            <button class="btn btn-dark h-100 border-radius-10">submit</button>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
                         </div>
                         <div class="col-md-2 p-0">
                             <button class="btn btn-dark" id="search-btn">
@@ -594,6 +609,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="/assets/js/main.js"></script>
 
 </html>
