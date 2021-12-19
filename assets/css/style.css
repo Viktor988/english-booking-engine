@@ -179,3 +179,7 @@ body {
   position: absolute;
   left: 0;
 }
+
+.room-info-card {
+  /* max-height: 180px; */
+}

@@ -214,11 +214,11 @@
 
                 <!-- Room card start -->
                 <section class="mt-3">
-                    <div class="card m-3 border-radius-16 shadow">
+                    <div class="card m-3 border-radius-16 shadow room-info-card">
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <!-- <img src="./assets/imgs/room.jpeg" class="img-fluid rounded-start" alt="room"> -->
-                                <div id="roomImages1" class="carousel slide rounded-start" data-bs-ride="carousel">
+                                <div id="roomImages1" class="carousel slide rounded-start h-100" data-bs-ride="carousel">
                                     <div class="carousel-indicators">
                                         <button type="button" data-bs-target="#roomImages1" data-bs-slide-to="0"
                                             class="active dot" aria-current="true" aria-label="Slide 1"></button>
@@ -227,18 +227,18 @@
                                         <button type="button" data-bs-target="#roomImages1" class="dot"
                                             data-bs-slide-to="2" aria-label="Slide 3"></button>
                                     </div>
-                                    <div class="carousel-inner slider-image-border-radius">
-                                        <div class="carousel-item active">
+                                    <div class="carousel-inner slider-image-border-radius h-100">
+                                        <div class="carousel-item h-100 active">
                                             <img src="./assets/imgs/room.jpeg"
-                                                class="d-block w-100 slider-image-border-radius" alt="room" />
+                                                class="d-block w-100 h-100 slider-image-border-radius" alt="room" />
                                         </div>
-                                        <div class="carousel-item">
+                                        <div class="carousel-item h-100">
                                             <img src="./assets/imgs/room.jpeg"
-                                                class="d-block w-100 slider-image-border-radius" alt="room" />
+                                                class="d-block w-100 h-100 slider-image-border-radius" alt="room" />
                                         </div>
-                                        <div class="carousel-item">
+                                        <div class="carousel-item h-100">
                                             <img src="./assets/imgs/room.jpeg"
-                                                class="d-block w-100 slider-image-border-radius" alt="room" />
+                                                class="d-block w-100 h-100 slider-image-border-radius" alt="room" />
                                         </div>
                                     </div>
                                 </div>
@@ -287,14 +287,75 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 bg-light-grey p-2">
-                                    <div class="row">
+                                <div class="col-12 bg-light-grey ps-1 pe-1 pt-2 pb-2" style="position: relative;">
+                                    <!-- <div class="row">
                                         <div class="col-8">
                                             <button class="btn btn-dark btn-sm border-radius-8 font-size-12">See
                                                 availability</button>
                                         </div>
                                         <div class="col-4">
                                             <span class="font-size-12">Pick a date to get rates</span>
+                                        </div>
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-5 p-0 ps-3">
+                                                    <b style="font-size: 0.65rem;">Check-In</b><br>
+                                                    <span style="font-size: 0.8rem;">11 November</span>
+                                                </div>
+                                                <div class="col-2 p-0">
+                                                    <span class="material-icons font-size-14 mt-3 text-occur-yellow">east</span>
+                                                </div>
+                                                <div class="col-5 p-0">
+                                                    <b style="font-size: 0.65rem;">Check-Out</b><br>
+                                                    <span style="font-size: 0.8rem;">11 November</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 p-1 text-center">
+                                            <div class="dropdown pt-2">
+                                                <button class="btn bg-white text-dark dropdown-toggle p-1" type="button"
+                                                    id="priceRateDropdDown1" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.7rem;">
+                                                    <span>Standard Rate</span>
+                                                    <span class="material-icons inline-icon text-bold" style="font-size: 1rem;">expand_more</span>
+                                                </button>
+                                                <ul class="dropdown-menu selection-dropdown" aria-labelledby="priceRateDropdDown1">
+                                                    <li><a class="dropdown-item" href="#"><img src="./assets/imgs/flags/switzerland.jpg"
+                                                                width="24" /> <span class="font-size-16">CHE</span></a></li>
+                                                    <li><a class="dropdown-item" href="#"><img src="./assets/imgs/flags/spain.jpg"
+                                                                width="24" /> <span class="font-size-16">ESP</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 p-1">
+                                            <div class="row pt-1">
+                                                <div class="col-md-4">
+                                                    <span style="font-size: 0.7rem;">Price</span>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="d-grid gap-3 d-md-block">
+                                                        <button
+                                                            class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1"
+                                                            type="button" style="font-size: 0.7rem;">
+                                                            <span class="material-icons m-1" style="font-size: 0.7rem;">remove</span>
+                                                        </button>
+                                                        <button class="btn btn-sm bg-light-grey text-dark" type="button" style="font-size: 0.7rem;">
+                                                            2
+                                                        </button>
+                                                        <button
+                                                            class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1"
+                                                            type="button" style="font-size: 0.7rem;">
+                                                            <span class="material-icons m-1" style="font-size: 0.7rem;">add</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-dark ps-4 pe-4" style="position: absolute; right: 0; top: 0; height: 100%; border-radius: 0;">
+                                                <span class="font-size-14">Book</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
