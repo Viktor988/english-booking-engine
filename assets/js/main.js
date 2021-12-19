@@ -9,3 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 });
+
+const setFocus = (id) => {
+    setTimeout(() => {
+        document.getElementById(id).focus();
+    }, 700);
+}
