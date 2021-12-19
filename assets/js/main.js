@@ -29,3 +29,16 @@ const setFocus = (id) => {
         document.getElementById(id).focus();
     }, 700);
 }
+
+const onPromoCodeEnter = () => {
+    const elem = document.getElementById('promocode');
+    const val = elem.value;
+    const btn = document.getElementById('submitPromo');
+    btn.style.display = val ? "block" : "none";
+    if(val) {
+        elem.className.concat('border-end-0');
+        elem.style.borderRadius = '10px 0px 0px 10px';
+    } else {
+        elem.style.borderRadius = '10px';
+    }
+}

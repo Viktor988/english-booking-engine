@@ -1,0 +1,249 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Booking Engine</title>
+    <meta name="description" content="Booking engine.">
+    <meta name="author" content="SitePoint">
+
+    <meta property="og:title" content="Booking Engine">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://app.otasync.me/engine/en/">
+    <!-- <meta property="og:description" content="Booking Engine"> -->
+    <meta property="og:image" content="./assets/imgs/logo.png">
+
+    <link rel="icon" href="./assets/imgs/flags/ota.ico">
+    <!-- <link rel="icon" href="/favicon.svg" type="image/svg+xml"> -->
+    <link rel="apple-touch-icon" href="./assets/imgs/logo.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./assets/css/daterangepicker.css" />
+</head>
+
+<body>
+    <!-- Navbar start -->
+    <nav class="bg-base text-light">
+        <section class="container-fluid">
+            <div class="row p-2">
+                <div class="col-md-3">
+                    <img src="./assets//imgs/logo.png" alt="logo" class="img-fluid" />
+                </div>
+                <div class="col-md-3">
+                    <span id="rating">
+                        <span class="material-icons text-light font-size-12">star_outline</span>
+                        <span class="material-icons text-warning font-size-12">star_rate</span>
+                        <span class="material-icons text-warning font-size-12">star_rate</span>
+                        <span class="material-icons text-warning font-size-12">star_rate</span>
+                        <span class="material-icons text-warning font-size-12">star_rate</span>
+                    </span>
+
+                    <a href="#" class="link-light ms-1 font-size-12">1 Review</a>
+
+                    <p class="text-secondary font-size-12 description">Lorem Ipsum is simply dummy text of the
+                        printing
+                        and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+                        specimen book. It has survived not only five centuries, but also the leap into electronic
+                        typesetting, remaining essentially unchanged.</p>
+                </div>
+                <div class="col-md-4 text-center pt-4">
+                    <button class="btn btn-light contact-us-btn">CONTACT
+                        US</button>
+                </div>
+                <div class="col-md-2 pt-4">
+                    <div class="row">
+                        <div class="col-6 text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                    id="countrySelection" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="./assets/imgs/flags/england.jpg" width="24" />
+                                    <span class="font-size-16">EN</span>
+                                    <span class="material-icons font-size-24 inline-icon text-bold">expand_more</span>
+                                </button>
+                                <ul class="dropdown-menu selection-dropdown" aria-labelledby="countrySelection">
+                                    <li><a class="dropdown-item" href="#"><img src="./assets/imgs/flags/switzerland.jpg"
+                                                width="24" /> <span class="font-size-16">CHE</span></a></li>
+                                    <li><a class="dropdown-item" href="#"><img src="./assets/imgs/flags/spain.jpg"
+                                                width="24" /> <span class="font-size-16">ESP</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-6 text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                    id="currencySelection" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="font-size-16">RSD</span>
+                                    <span class="material-icons font-size-24 inline-icon text-bold">expand_more</span>
+                                </button>
+                                <ul class="dropdown-menu selection-dropdown" aria-labelledby="currencySelection">
+                                    <li><a class="dropdown-item" href="#">EUR</a></li>
+                                    <li><a class="dropdown-item" href="#">USD</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </nav>
+    <!-- Navbar end -->
+
+    <!-- Main content start -->
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="m-3 p-3 ps-5 pe-5">
+                    <h4 class="mt-2 mb-5"><b>Welcome</b></h4>
+                    <div class="form-floating">
+                        <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;" id="fullName" />
+                        <label for="fullName" class="form-label">First and Last Name *</label>
+                    </div>
+                    <div class="form-floating mt-4">
+                        <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;" id="email" />
+                        <label for="email" class="form-label">Email *</label>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;" id="code" />
+                                <label for="code" class="form-label">Code</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;" id="phone" />
+                                <label for="phone" class="form-label">Phone *</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;" id="country" />
+                                <label for="country" class="form-label">Country</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;" id="arrival" />
+                                <label for="arrival" class="form-label">Arrival Time</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mt-4">
+                        <textarea class="form-control p-2" style="border-radius: 10px; height: 6rem;" id="note"></textarea>
+                        <label for="note" class="form-label">Additional Notes</label>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <input type="checkbox" style="border-radius: 10px; transform: scale(2);"/>
+                            <span class="text-light-grey font-size-12 ms-2">I agree with terms and privacy policy</span>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-dark font-size-12 w-100">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="background-image: url('./assets/imgs/hotel.jpeg');">
+                <div class="row m-5">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <div class="border-radius-10 bg-dark text-light p-3 ps-5 pe-5 mb-3">
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="font-size-10 m-0">Check-In</p>
+                                            <span class="font-size-12">11 November 2021<span class="ms-5 material-icons inline-icon">edit_note</span></span>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <p class="font-size-10 m-0">Check-Out</p>
+                                            <span class="font-size-12">16 November 2021<span class="ms-5 material-icons inline-icon">edit_note</span></span>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <p class="font-size-10 m-0">2 Bed appartment with sea-view</p>
+                                            <span class="font-size-12">1x <span class="ms-4">3256 RSD</span><span class="ms-4 material-icons inline-icon">info</span></span>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <b class="font-size-12 me-3">Total</b> <span class="font-size-12">3256 RSD</span>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <button class="btn btn-light font-size-12">Make Reservation</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                        </div>
+                        <div class="border-radius-10 bg-dark text-light p-3 ps-5 pe-5">
+                            <div class="row">
+                                <div class="col-3 mb-2">
+                                    <span class="material-icons font-size-18">phone_enabled</span>
+                                </div>
+                                <div class="col-9 mb-2">
+                                    <span class="font-size-12">9876543210</span>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <span class="material-icons font-size-18">room</span>
+                                </div>
+                                <div class="col-9 mb-2">
+                                    <span class="font-size-12">Dobrota 80</span>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <span class="material-icons font-size-18">mail</span>
+                                </div>
+                                <div class="col-9 mb-2">
+                                    <span class="font-size-12">avram.pedja@gmail.com</span>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <span class="material-icons font-size-18">language</span>
+                                </div>
+                                <div class="col-9 mb-2">
+                                    <span class="font-size-12">www.larcohotel.com</span>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-3"></div>
+                                <div class="col-3 text-center">
+                                    <img class="image-fluid mt-1" src="./assets/imgs/social/instagram.png" width="30" />
+                                </div>
+                                <div class="col-3 text-center">
+                                    <img class="image-fluid" src="./assets/imgs/social/facebook.png" width="40" />
+                                </div>
+                                <div class="col-3"></div>
+                                <div class="col-12 text-center pt-3">
+                                    <button class="btn btn-light font-size-12 ps-4 pe-4">CONTACT
+                                        US</button>
+                                </div>
+                                <div class="col-12 text-center pt-3">
+                                    <span class="font-size-12">Privacy policy | About cookies policy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Main content end -->
+
+</body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+</html>
