@@ -7,30 +7,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Booking Engine</title>
-    <meta name="description" content="Booking engine.">
+    <!-- <meta name="description" content="Booking engine.">
     <meta name="author" content="SitePoint">
 
     <meta property="og:title" content="Booking Engine">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://app.otasync.me/engine/en/">
-    <!-- <meta property="og:description" content="Booking Engine"> -->
-    <meta property="og:image" content="./assets/imgs/logo.png">
+    <meta property="og:description" content="Booking Engine">
+    <meta property="og:image" content="./assets/imgs/logo.png"> -->
 
     <link rel="icon" href="./assets/imgs/flags/ota.ico">
-    <!-- <link rel="icon" href="/favicon.svg" type="image/svg+xml"> -->
     <link rel="apple-touch-icon" href="./assets/imgs/logo.png">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="./assets/css/bootstrap.min.css?v=1" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=1">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./assets/css/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/daterangepicker.css?v=1" />
 </head>
 
 <body>
-    <header class="bg-base text-light" id="header"></header>
+    <header class="bg-base text-light">
+        <section class="container-fluid">
+            <div class="row p-2">
+                <div class="col-lg-3 col-md-4 col-sm-12 text-center">
+                    <div class="row">
+                        <div class="col-12 d-none d-md-block d-lg-block">
+                            <img src="" alt="logo" class="img-fluid" id="logo" />
+                        </div>
+                        <div class="col-6 d-block d-md-none d-lg-none">
+                            <img src="" alt="logo" class="img-fluid" id="mobile-logo" />
+                        </div>
+                        <div class="col-6 d-block d-md-none d-lg-none p-4">
+                            <div class="row">
+                                <div class="col-6 text-end">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                            id="selectMobileLang" data-bs-toggle="dropdown" aria-expanded="false">
+                                        </button>
+                                        <ul class="dropdown-menu selection-dropdown" aria-labelledby="selectMobileLang"
+                                            id="mobileCountrySelection"></ul>
+                                    </div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                            id="mobileCurrencySelection" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class="fs-6">RSD</span>
+                                            <span class="material-icons fs-4 inline-icon text-bold">expand_more</span>
+                                        </button>
+                                        <ul class="dropdown-menu selection-dropdown"
+                                            aria-labelledby="mobileCurrencySelection">
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('EUR')" id="mob-EUR"> EUR </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('RSD')" id="mob-RSD"> RSD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('USD')" id="mob-USD"> USD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('RON')" id="mob-RON"> RON </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('SGD')" id="mob-SGD"> SGD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('PHP')" id="mob-PHP"> PHP </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('CAD')" id="mob-CAD"> CAD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('GBP')" id="mob-GBP"> GBP </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('MYR')" id="mob-MYR"> MYR </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('THB')" id="mob-THB"> THB </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('PLN')" id="mob-PLN"> PLN </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('AOA')" id="mob-AOA"> AOA </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('DZD')" id="mob-DZD"> DZD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('AUD')" id="mob-AUD"> AUD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('KZT')" id="mob-KZT"> KZT </button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12 p-2">
+                    <span id="rating">
+                        <span class="material-icons text-light fs-6">star_outline</span>
+                        <span class="material-icons text-warning fs-6">star_rate</span>
+                        <span class="material-icons text-warning fs-6">star_rate</span>
+                        <span class="material-icons text-warning fs-6">star_rate</span>
+                        <span class="material-icons text-warning fs-6">star_rate</span>
+                    </span>
+
+                    <a href="#" class="link-light ms-1 fs-6">1 Review</a>
+
+                    <p class="text-secondary font-size-14 mt-2 description" id="description"></p>
+                </div>
+                <div class="col-lg-3 text-center d-none d-lg-block">
+                    <button class="btn btn-light mt-5 contact-us-btn position-inline align-middle">CONTACT
+                        US</button>
+                </div>
+                <div class="col-lg-3 col-md-4 pt-5 d-none d-md-block d-lg-block">
+                    <div class="row">
+                        <div class="col-6 text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                    id="selectedLang" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu selection-dropdown" aria-labelledby="selectedLang"
+                                    id="langSelection"></ul>
+                            </div>
+                        </div>
+                        <div class="col-6 text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                    id="currencySelection" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="fs-6">RSD</span>
+                                    <span class="material-icons fs-4 inline-icon text-bold">expand_more</span>
+                                </button>
+                                <ul class="dropdown-menu selection-dropdown" aria-labelledby="currencySelection">
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('EUR')" id="EUR"> EUR </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('RSD')" id="RSD"> RSD </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('USD')" id="USD"> USD </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('RON')" id="RON"> RON </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('SGD')" id="SGD"> SGD </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('PHP')" id="PHP"> PHP </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('CAD')" id="CAD"> CAD </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('GBP')" id="GBP"> GBP </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('MYR')" id="MYR"> MYR </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('THB')" id="THB"> THB </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('PLN')" id="PLN"> PLN </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('AOA')" id="AOA"> AOA </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('DZD')" id="DZD"> DZD </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('AUD')" id="AUD"> AUD </button></li>
+                                    <li><button class="dropdown-item" onclick="onCurrencySelection('KZT')" id="KZT"> KZT </button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </header>
 
     <!-- Main content start -->
     <section class="container-fluid p-4 mt-4">
@@ -39,10 +147,10 @@
                 <!-- Selection section start -->
                 <section class="container-fluid">
                     <div class="row shadow border border-1 text-center border-radius-10">
-                        <div class="col-lg-4 col-md-4 col-sm-12 pt-3 pb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 pt-3 pb-3" id="dateRange">
                             <div class="row">
                                 <div class="col-5 ps-5">
-                                    <b class="fs-5">Check-In</b><br>
+                                    <b class="fs-5" id="checkInLabel">Check-In</b><br>
                                     <button class="btn bg-white text-dark btn-sm fs-6" id="checkIn">Add
                                         Dates</button>
                                 </div>
@@ -50,7 +158,7 @@
                                     <span class="material-icons fs-5 mt-3 text-occur-yellow">east</span>
                                 </div>
                                 <div class="col-5 pe-5">
-                                    <b class="fs-5">Check-Out</b><br>
+                                    <b class="fs-5" id="checkOutLabel">Check-Out</b><br>
                                     <button class="btn bg-white text-dark btn-sm fs-6" id="checkOut">Add
                                         Dates</button>
                                 </div>
@@ -72,16 +180,14 @@
                                             </div>
                                             <div class="col-6 text-end">
                                                 <div class="d-grid gap-3 d-md-block mt-3">
-                                                    <button
-                                                        class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
                                                         type="button">
                                                         <span class="material-icons fs-6 m-1">remove</span>
                                                     </button>
                                                     <button class="btn btn-sm bg-white text-dark" type="button">
                                                         2
                                                     </button>
-                                                    <button
-                                                        class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
                                                         type="button">
                                                         <span class="material-icons fs-6 m-1">add</span>
                                                     </button>
@@ -93,16 +199,14 @@
                                             </div>
                                             <div class="col-6 text-end">
                                                 <div class="d-grid gap-3 d-md-block mt-3">
-                                                    <button
-                                                        class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
                                                         type="button">
                                                         <span class="material-icons fs-6 m-1">remove</span>
                                                     </button>
                                                     <button class="btn btn-sm bg-white text-dark" type="button">
                                                         2
                                                     </button>
-                                                    <button
-                                                        class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
                                                         type="button">
                                                         <span class="material-icons fs-6 m-1">add</span>
                                                     </button>
@@ -114,16 +218,14 @@
                                             </div>
                                             <div class="col-6 text-end">
                                                 <div class="d-grid gap-3 d-md-block mt-3">
-                                                    <button
-                                                        class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
                                                         type="button">
                                                         <span class="material-icons fs-6 m-1">remove</span>
                                                     </button>
                                                     <button class="btn btn-sm bg-white text-dark" type="button">
                                                         2
                                                     </button>
-                                                    <button
-                                                        class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
                                                         type="button">
                                                         <span class="material-icons fs-6 m-1">add</span>
                                                     </button>
@@ -134,11 +236,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-6 pt-3 pb-3 bg-bright-yellow-tint">
-                            <b class="fs-5 text-bright-yellow">Promocode</b><br>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-6 pt-3 pb-3">
+                            <b class="fs-5">Promocode</b><br>
                             <div class="dropdown">
-                                <button class="btn bg-bright-yellow-tint text-dark btn-sm dropdown-toggle p-1"
-                                    type="button" id="enterPromocode" data-bs-toggle="dropdown" aria-expanded="false"
+                                <button class="btn text-dark btn-sm dropdown-toggle p-1" type="button"
+                                    id="enterPromocode" data-bs-toggle="dropdown" aria-expanded="false"
                                     onclick="setFocus('promocode')">
                                     <span class="fs-6">Enter Promocode</span>
                                 </button>
@@ -166,7 +268,7 @@
 
 
                 <room-card></room-card>
-                
+
             </div>
             <div class="col-lg-3 d-none d-lg-block d-md-none d-sm-none">
                 <div class="border-radius-10 bg-dark text-light p-4">
@@ -291,11 +393,13 @@
     <!-- Footer end -->
 
     <div id="popup-modal"></div><!-- Room info modal -->
+    <loader></loader>
 </body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/component-import.js"></script>
-<script src="/assets/js/main.js"></script>
+<script type="text/javascript" src="./assets/js/plugin/jquery.min.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/call.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/plugin/bootstrap.bundle.min.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/main.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/plugin/moment.min.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/plugin/daterangepicker.min.js?v=1"></script>
+
 </html>

@@ -224,3 +224,12 @@ body {
 .promocode-dropdown .form-control {
   height: 2.5rem;
 }
+
+.loader-md {
+  width: 2rem;
+  height: 2rem;
+}
+
+#logo {
+  max-width: 15rem;
+}
