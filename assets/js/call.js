@@ -72,7 +72,8 @@ const getSpecialOffer = (adults, children, date_arrival, date_departure) => {
     const data = {
         id_properties: params.get('id_properties'),
         id_language: params.get('language'),
-        adults, children,
+        adults, 
+        children,
         dfrom: date_arrival,
         dto: date_departure
     };
