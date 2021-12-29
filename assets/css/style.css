@@ -3,10 +3,10 @@
   --occur-yellow: #d79538;
   --bright-yellow: #ff9d00;
   --light-grey: #e8e8e8;
-  --light-gray: #C7C7C7;
+  --light-gray: #c7c7c7;
   --mid-grey: #a5a5a5;
   --dark-grey: #535353;
-  --bright-yellow-tint: #FFF5E6;
+  --bright-yellow-tint: #fff5e6;
 }
 
 body {
@@ -85,6 +85,10 @@ body {
 
 .font-size-12 {
   font-size: 12px;
+}
+
+.font-size-13 {
+  font-size: 13px;
 }
 
 .font-size-14 {
@@ -232,4 +236,16 @@ body {
 
 #logo {
   max-width: 15rem;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.amenity-icon img {
+  width: 20px;
+}
+
+.amenity-icon svg {
+  width: 20px;
 }

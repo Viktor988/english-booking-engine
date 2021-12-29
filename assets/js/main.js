@@ -4,25 +4,25 @@ let settings = {};
 let languages = [];
 let adults = 1;
 let children = 0;
+let promocode = '';
 
 $(document).ready(() => {
     initPage();
 });
 
+const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+popoverTriggerList.map((elem) => {
+    return new bootstrap.Popover(elem);
+});
+
+const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+tooltipTriggerList.map((tooltipTriggerEl) => {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+});
+
 const initPage = () => {
     initDatePicker();
     setHeader();
-
-    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-    popoverTriggerList.map((elem) => {
-        return new bootstrap.Popover(elem);
-    });
-
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map((tooltipTriggerEl) => {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
-
 
     const params = new URLSearchParams(location.search);
     dfrom = params.get('dfrom') ? params.get('dfrom') : '';
@@ -32,6 +32,9 @@ const initPage = () => {
         const toDate = moment(dto).format('DD MMMM');
         setDate(fromDate, toDate);
     }
+
+    document.getElementById('noOfAdult').innerHTML = adults;
+    document.getElementById('noOfChildren').innerHTML = children;
 }
 
 const initDatePicker = () => {
@@ -58,8 +61,79 @@ const setHeader = async () => {
     const description = document.getElementById('description');
     description.innerHTML = settings.description;
     onCurrencySelection(settings.currency);
+    setContactSection();
     setLanguages();
     fetchRoomList();
+}
+
+const setContactSection = () => {
+    const desktopSite = document.getElementById('desktop-site');
+    const desktopSiteElem = document.getElementById('desktop-site-section');
+
+    if (desktopSite) {
+        desktopSite.innerHTML = settings.website;
+    }
+    if (desktopSiteElem) {
+        desktopSiteElem.setAttribute("onclick", "window.open('" + settings.website + "');");
+    }
+
+    const mobileSite = document.getElementById('mobile-site');
+    const mobileSiteElem = document.getElementById('mobile-site-section');
+
+    if (mobileSite) {
+        mobileSite.innerHTML = settings.website;
+    }
+    if (mobileSiteElem) {
+        mobileSiteElem.setAttribute("onclick", "window.open('" + settings.website + "');");
+    }
+
+    const desktopEmail = document.getElementById('desktop-mail');
+    const desktopEmailElem = document.getElementById('desktop-mail-section');
+
+    if (desktopEmail) {
+        desktopEmail.innerHTML = settings.email;
+    }
+    if (desktopEmailElem) {
+        desktopEmailElem.setAttribute("onclick", "window.open('mailto:" + settings.email + "');");
+    }
+
+    const mobileEmail = document.getElementById('mobile-mail');
+    const mobileEmailElem = document.getElementById('mobile-mail-section');
+
+    if (mobileEmail) {
+        mobileEmail.innerHTML = settings.email;
+    }
+    if (mobileEmailElem) {
+        mobileEmailElem.setAttribute("onclick", "window.open('mailto:" + settings.email + "');");
+    }
+
+    const desktopLocation = document.getElementById('desktop-location');
+    if (desktopLocation) {
+        desktopLocation.innerHTML = settings.address;
+    }
+
+    const mobileLocation = document.getElementById('mobile-location');
+    if (mobileLocation) {
+        mobileLocation.innerHTML = settings.address;
+    }
+
+    const desktopPhone = document.getElementById('desktop-phone');
+    const desktopPhoneElem = document.getElementById('desktop-phone-section');
+    if (desktopPhone) {
+        desktopPhone.innerHTML = settings.phone;
+    }
+    if (desktopPhoneElem) {
+        desktopPhoneElem.setAttribute("onclick", "window.open('tel:" + settings.phone + "');");
+    }
+
+    const mobilePhone = document.getElementById('mobile-phone');
+    const mobilePhoneElem = document.getElementById('mobile-phone-section');
+    if (mobilePhone) {
+        mobilePhone.innerHTML = settings.phone;
+    }
+    if (mobilePhoneElem) {
+        mobilePhoneElem.setAttribute("onclick", "window.open('tel:" + settings.phone + "');");
+    }
 }
 
 const setDate = (labelFrom, labelEnd) => {
@@ -163,203 +237,6 @@ const onCurrencySelection = (cur) => {
     }
 }
 
-const fetchRoomList = async () => {
-    const specialRooms = await getSpecialOffer(adults, children, dfrom, dto);
-    let rooms = specialRooms;
-    const resp = await getRooms(adults, settings.currency, dfrom.dto);
-    rooms = [...rooms, ...resp.rooms];
-    const elem = document.getElementById('room-card');
-    const params = new URLSearchParams(location.search);
-    let ind = 0;
-    rooms.forEach(itm => {
-        const room = itm.room_details;
-        console.log(itm)
-        let imageSlider = '';
-        let imageItem = '';
-        let imageButton = '';
-        let roomInd = 0;
-        room.roomImages.forEach(img => {
-            const active = roomInd === 0 ? 'active' : '';
-            imageItem += `
-            <div class="carousel-item h-100 ` + active + `">
-                <img src="` + img.url + `" class="d-block w-100 h-100 slider-image-border-radius"
-                    alt="room" />
-            </div>
-            `;
-
-            imageButton += `
-            <button type="button" data-bs-target="#roomImages` + ind + `" data-bs-slide-to="` + roomInd + `" class="` + active + ` dot" aria-current="true" aria-label="Slide"></button>
-            `;
-            roomInd++;
-        });
-
-        imageSlider += `
-            <div id="roomImages` + ind + `" class="carousel slide rounded-start h-100" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    ` + imageButton + `
-                </div>
-                <div class="carousel-inner slider-image-border-radius h-100">
-                    ` + imageItem + `
-                </div>
-            </div>
-        `;
-
-        elem.innerHTML += `
-        <div class="card m-3 border-radius-16 shadow room-info-card">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    ` + imageSlider + `
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-8">
-                                <h2 class="card-title mb-2"><b>` + itm.name + `</b></h2>
-                                <p class="card-text fs-6 description m-0 mb-1">
-                                    ` + itm.description + `
-                                </p>
-                                <button class="btn bg-white text-bright-yellow btn-sm fs-6 ps-0" data-bs-toggle="modal"
-                                    data-bs-target="#roomInfoModal">More
-                                    about property</button>
-                            </div>
-                            <div class="col-4">
-                                <div class="fs-6 bg-occur-yellow text-white p-2 price-badge">
-                                    <span>Price from <b class="fs-6">` + itm.price + `</b> ` + params.get('currency') + `</span>
-                                </div>
-                                <div class="room-info mb-3 mt-5 text-end">
-                                    <span class="fs-6 p-2 border-end">
-                                        <span class="material-icons inline-icon">people</span> ` + itm.occupancy + `
-                                    </span>
-                                    <span class="fs-6 p-2 border-end">
-                                        <span class="material-icons inline-icon">bed</span> 2
-                                    </span>
-                                    <span class="fs-6 p-2">
-                                        <span class="material-icons inline-icon">home</span>
-                                        60m²
-                                    </span>
-                                </div>
-                                <div class="amenity-icon text-end">
-                                    <span class="material-icons fs-4">wifi</span>
-                                    <span class="material-icons fs-4">ac_unit</span>
-                                    <span class="material-icons fs-4">satellite_alt</span>
-                                    <span class="material-icons fs-4">liquor</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <!-- availability option start -->
-                    <div class="col-12 bg-light-grey ps-1 pe-1 position-relative">
-                        <div class="row">
-                            <div class="col-md-4 pb-1">
-                                <div class="row">
-                                    <div class="col-5 p-0 ps-3">
-                                        <span class="font-size-12">Check-In</span><br>
-                                        <b class="font-size-14">11 November</b>
-                                    </div>
-                                    <div class="col-2 p-0">
-                                        <span class="material-icons fs-5 mt-3 text-occur-yellow">east</span>
-                                    </div>
-                                    <div class="col-5 p-0">
-                                        <span class="font-size-12">Check-Out</span><br>
-                                        <b class="font-size-14">11 November</b>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 p-1 text-center">
-                                <div class="dropdown pt-2">
-                                    <button class="btn bg-white fs-7 text-dark dropdown-toggle p-1" type="button"
-                                        id="priceRateDropdDown1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span>Standard Rate</span>
-                                        <span class="material-icons inline-icon text-bold fs-4">expand_more</span>
-                                    </button>
-                                    <ul class="dropdown-menu selection-dropdown-lg" aria-labelledby="priceRateDropdDown1">
-                                        <li class="dropdown-item">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <b class="fs-5">Standard Rate</b>
-                                                </div>
-                                                <div class="col-6 text-end">
-                                                    <span class="font-size-10">Per night</span>
-                                                    <b class="fs-5">25</b>
-                                                </div>
-                                                <div class="col-12">
-                                                    <span class="text-light-grey fs-6"><b>Description</b></span>
-                                                    <p class="font-size-12 mb-1">Here is the test
-                                                        description</p>
-                                                    <span class="text-light-grey fs-6"><b>Cancellation
-                                                            Policy</b>
-                                                    </span>
-                                                    <p class="font-size-12">Here is the test policy</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-3 p-1">
-                                <div class="row pt-1">
-                                    <div class="col-md-4 fs-6 pt-2">
-                                        <span>Unit</span>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="d-grid gap-3 d-md-block">
-                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6" type="button">
-                                                <span class="material-icons m-1 fs-6">remove</span>
-                                            </button>
-                                            <button class="btn btn-sm bg-light-grey text-dark fs-6" type="button">
-                                                2
-                                            </button>
-                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6" type="button">
-                                                <span class="material-icons m-1 fs-6">add</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-dark ps-4 pe-4 border-0 position-absolute top-0 end-0 h-100"
-                                    onclick="window.location.href = 'booking.html'">
-                                    <span class="fs-5">Book</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ps-2 mt-2 mb-2">
-                        <div class="col-md-4 text-center">
-                            <span class="fs-5">11 days</span>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-5 p-0 text-end">
-                                    <div class="fs-6">25 <sup>EUR</sup></div>
-                                    <div class="font-size-10 text-light-grey">Per Night</div>
-                                </div>
-                                <div class="col-2 p-0 pt-1 text-center text-light-grey fw-lighter">/</div>
-                                <div class="col-5 p-0">
-                                    <div class="fs-6"><b>275</b> <sup>EUR</sup></div>
-                                    <div class="font-size-10 text-light-grey">Per Night</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <span class="fs-5">2 rooms</span>
-                        </div>
-                        <div class="col-md-2 text-end pe-4">
-                            <div class="fs-6"><b>550</b> <sup>EUR</sup></div>
-                            <div class="font-size-8 text-light-grey">For staying</div>
-                        </div>
-                    </div>
-                    <!-- availability option start -->
-                </div>
-            </div>
-        </div>
-        `;
-
-        ind++;
-    })
-}
-
 const setFocus = (id) => {
     setTimeout(() => {
         document.getElementById(id).focus();
@@ -368,13 +245,72 @@ const setFocus = (id) => {
 
 const onPromoCodeEnter = () => {
     const elem = document.getElementById('promocode');
-    const val = elem.value;
+    promocode = elem.value;
     const btn = document.getElementById('submitPromo');
-    btn.style.display = val ? "block" : "none";
-    if (val) {
+    btn.style.display = promocode ? "block" : "none";
+    if (promocode) {
         elem.className.concat('border-end-0');
         elem.style.borderRadius = '10px 0px 0px 10px';
     } else {
         elem.style.borderRadius = '10px';
+    }
+}
+
+const setPromoCode = () => {
+    const appliedPromocode = document.getElementById('appliedPromocode');
+    appliedPromocode.innerHTML = promocode;
+    appliedPromocode.style.display = 'block';
+    document.getElementById('enterPromocodeText').style.display = 'none';
+    document.getElementById('enterPromocode').classList.add('bg-bright-yellow-tint');
+    document.getElementById('promocodeSection').classList.add('bg-bright-yellow-tint');
+    document.getElementById('promocodeLabel').classList.add('text-bright-yellow');
+}
+
+$('#addAdult').click(() => {
+    adults++;
+    document.getElementById('noOfAdult').innerHTML = adults;
+    setGuestFilter();
+});
+
+$('#addChildren').click(() => {
+    children++;
+    document.getElementById('noOfChildren').innerHTML = children;
+    setGuestFilter();
+});
+
+$('#removeAdult').click(() => {
+    if (adults !== 0) {
+        adults--;
+        document.getElementById('noOfAdult').innerHTML = adults;
+        setGuestFilter();
+    }
+});
+
+$('#removeChildren').click(() => {
+    if (children !== 0) {
+        children--;
+        document.getElementById('noOfChildren').innerHTML = children;
+        setGuestFilter();
+    }
+});
+
+const setGuestFilter = () => {
+    const elem = document.getElementById('noOfGuest');
+    if (adults > 1 || children > 0) {
+        document.getElementById('addGuest').style.display = 'none';
+        elem.innerHTML = children > 0 ? adults + ' Adult, ' + children + ' child' : adults + ' Adult';
+        elem.style.display = 'block';
+        document.getElementById('guestLable').classList.add('text-bright-yellow');
+        document.getElementById('guestSection').classList.add('bg-bright-yellow-tint');
+        document.getElementById('addGuestDropDown').classList.add('bg-bright-yellow-tint');
+        document.getElementById('addGuestDropDown').classList.remove('bg-white');
+    } else {
+        document.getElementById('addGuest').style.display = 'block';
+        elem.innerHTML = '';
+        elem.style.display = 'none';
+        document.getElementById('guestLable').classList.remove('text-bright-yellow');
+        document.getElementById('guestSection').classList.remove('bg-bright-yellow-tint');
+        document.getElementById('addGuestDropDown').classList.remove('bg-bright-yellow-tint');
+        document.getElementById('addGuestDropDown').classList.add('bg-white');
     }
 }

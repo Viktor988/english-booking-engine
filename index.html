@@ -25,6 +25,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./assets/css/daterangepicker.css?v=1" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
 <body>
@@ -98,7 +100,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-12 p-2">
-                    <span id="rating">
+                    <!-- <span id="rating">
                         <span class="material-icons text-light fs-6">star_outline</span>
                         <span class="material-icons text-warning fs-6">star_rate</span>
                         <span class="material-icons text-warning fs-6">star_rate</span>
@@ -106,7 +108,7 @@
                         <span class="material-icons text-warning fs-6">star_rate</span>
                     </span>
 
-                    <a href="#" class="link-light ms-1 fs-6">1 Review</a>
+                    <a href="#" class="link-light ms-1 fs-6">1 Review</a> -->
 
                     <p class="text-secondary font-size-14 mt-2 description" id="description"></p>
                 </div>
@@ -195,15 +197,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-6 pt-3 pb-3">
-                            <b class="fs-5">Guests</b><br>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-6 pt-3 pb-3" id="guestSection">
+                            <b class="fs-5" id="guestLable">Guests</b><br>
                             <div class="dropdown">
                                 <button class="btn bg-white text-dark btn-sm dropdown-toggle p-1" type="button"
-                                    id="addGuestDropDown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="fs-6">Add guests</span>
+                                    id="addGuestDropDown" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                    aria-expanded="false">
+                                    <span class="fs-6" id="addGuest">Add guests</span>
+                                    <b class="fs-6" id="noOfGuest" style="display: none;"></b>
                                 </button>
-                                <ul class="dropdown-menu selection-dropdown-lg" aria-labelledby="addGuestDropDown">
-                                    <li>
+                                <ul class="guest-dropdown dropdown-menu selection-dropdown-lg"
+                                    aria-labelledby="addGuestDropDown">
+                                    <li onclick="event.stopPropagation()">
                                         <div class="row p-2">
                                             <div class="col-6">
                                                 <b class="fs-6">Adults</b><br>
@@ -212,14 +217,13 @@
                                             <div class="col-6 text-end">
                                                 <div class="d-grid gap-3 d-md-block mt-3">
                                                     <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                        type="button">
+                                                        type="button" id="removeAdult">
                                                         <span class="material-icons fs-6 m-1">remove</span>
                                                     </button>
-                                                    <button class="btn btn-sm bg-white text-dark" type="button">
-                                                        2
-                                                    </button>
+                                                    <button class="btn btn-sm bg-white text-dark" type="button"
+                                                        id="noOfAdult"></button>
                                                     <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                        type="button">
+                                                        type="button" id="addAdult">
                                                         <span class="material-icons fs-6 m-1">add</span>
                                                     </button>
                                                 </div>
@@ -231,33 +235,13 @@
                                             <div class="col-6 text-end">
                                                 <div class="d-grid gap-3 d-md-block mt-3">
                                                     <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                        type="button">
+                                                        type="button" id="removeChildren">
                                                         <span class="material-icons fs-6 m-1">remove</span>
                                                     </button>
-                                                    <button class="btn btn-sm bg-white text-dark" type="button">
-                                                        2
-                                                    </button>
+                                                    <button class="btn btn-sm bg-white text-dark" type="button"
+                                                        id="noOfChildren"></button>
                                                     <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                        type="button">
-                                                        <span class="material-icons fs-6 m-1">add</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <b class="fs-6">Infants</b><br>
-                                                <span class="text-secondary fs-6">Under 2</span>
-                                            </div>
-                                            <div class="col-6 text-end">
-                                                <div class="d-grid gap-3 d-md-block mt-3">
-                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                        type="button">
-                                                        <span class="material-icons fs-6 m-1">remove</span>
-                                                    </button>
-                                                    <button class="btn btn-sm bg-white text-dark" type="button">
-                                                        2
-                                                    </button>
-                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                        type="button">
+                                                        type="button" id="addChildren">
                                                         <span class="material-icons fs-6 m-1">add</span>
                                                     </button>
                                                 </div>
@@ -267,13 +251,14 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-6 pt-3 pb-3">
-                            <b class="fs-5">Promocode</b><br>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-6 pt-3 pb-3" id="promocodeSection">
+                            <b class="fs-5" id="promocodeLabel">Promocode</b><br>
                             <div class="dropdown">
                                 <button class="btn text-dark btn-sm dropdown-toggle p-1" type="button"
                                     id="enterPromocode" data-bs-toggle="dropdown" aria-expanded="false"
                                     onclick="setFocus('promocode')">
-                                    <span class="fs-6">Enter Promocode</span>
+                                    <span class="fs-6" id="enterPromocodeText">Enter Promocode</span>
+                                    <b class="fs-6" id="appliedPromocode" style="display: none;"></b>
                                 </button>
                                 <ul class="dropdown-menu promocode-dropdown" aria-labelledby="enterPromocode">
                                     <div class="form-floating m-3 input-group">
@@ -282,7 +267,8 @@
                                         <label for="promocode" class="form-label">Promocode</label>
                                         <div class="input-group-text p-0 bg-white border-radius-10" id="submitPromo"
                                             style="display: none;">
-                                            <button class="btn btn-dark h-100 border-radius-10">submit</button>
+                                            <button class="btn btn-dark h-100 border-radius-10"
+                                                onclick="setPromoCode()">submit</button>
                                         </div>
                                     </div>
                                 </ul>
@@ -304,30 +290,36 @@
                     <div class="row">
                         <div class="col-1 p-0"></div>
                         <div class="col-10 p-0">
-                            <div class="row">
+                            <div class="row" id="desktop-phone-section" class="pointer">
                                 <div class="col-3 mb-2">
-                                    <span class="material-icons fs-6">phone_enabled</span>
+                                    <span class="pointer material-icons fs-5">phone_enabled</span>
                                 </div>
                                 <div class="col-9 mb-2">
-                                    <span class="fs-6">9876543210</span>
+                                    <span class="pointer font-size-12" id="desktop-phone"></span>
                                 </div>
+                            </div>
+                            <div class="row" id="desktop-location-section" class="pointer">
                                 <div class="col-3 mb-2">
-                                    <span class="material-icons fs-6">room</span>
+                                    <span class="pointer material-icons fs-5">room</span>
                                 </div>
                                 <div class="col-9 mb-2">
-                                    <span class="fs-6">Dobrota 80</span>
+                                    <span class="pointer font-size-12" id="desktop-location"></span>
                                 </div>
+                            </div>
+                            <div class="row" id="desktop-mail-section" class="pointer">
                                 <div class="col-3 mb-2">
-                                    <span class="material-icons fs-6">mail</span>
+                                    <span class="pointer material-icons fs-5">mail</span>
                                 </div>
                                 <div class="col-9 mb-2">
-                                    <span class="fs-6">avram.pedja@gmail.com</span>
+                                    <span class="pointer font-size-12" id="desktop-mail"></span>
                                 </div>
+                            </div>
+                            <div class="row" id="desktop-site-section" class="pointer">
                                 <div class="col-3 mb-2">
-                                    <span class="material-icons fs-6">language</span>
+                                    <span class="pointer material-icons fs-5">language</span>
                                 </div>
                                 <div class="col-9 mb-2">
-                                    <span class="fs-6">www.larcohotel.com</span>
+                                    <span class="pointer font-size-12" id="desktop-site"></span>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -358,37 +350,43 @@
             <div class="row">
                 <div class="col-3"></div>
                 <div class="col-6">
+                    <div class="row" id="mobile-phone-section">
+                        <div class="col-2"></div>
+                        <div class="col-3 mb-2">
+                            <span class="material-icons fs-6 pointer">phone_enabled</span>
+                        </div>
+                        <div class="col-5 mb-2">
+                            <span class="font-size-12 pointer" id="mobile-phone"></span>
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
                     <div class="row">
                         <div class="col-2"></div>
                         <div class="col-3 mb-2">
-                            <span class="material-icons fs-6">phone_enabled</span>
+                            <span class="material-icons fs-6 pointer">room</span>
                         </div>
                         <div class="col-5 mb-2">
-                            <span class="fs-6">9876543210</span>
+                            <span class="font-size-12 pointer" id="mobile-location"></span>
                         </div>
                         <div class="col-2"></div>
+                    </div>
+                    <div class="row">
                         <div class="col-2"></div>
                         <div class="col-3 mb-2">
-                            <span class="material-icons fs-6">room</span>
+                            <span class="material-icons fs-6 pointer">mail</span>
                         </div>
                         <div class="col-5 mb-2">
-                            <span class="fs-6">Dobrota 80</span>
+                            <span class="font-size-12 pointer" id="mobile-mail"></span>
                         </div>
                         <div class="col-2"></div>
+                    </div>
+                    <div class="row">
                         <div class="col-2"></div>
                         <div class="col-3 mb-2">
-                            <span class="material-icons fs-6">mail</span>
+                            <span class="material-icons fs-6 pointer">language</span>
                         </div>
                         <div class="col-5 mb-2">
-                            <span class="fs-6">avram.pedja@gmail.com</span>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-2"></div>
-                        <div class="col-3 mb-2">
-                            <span class="material-icons fs-6">language</span>
-                        </div>
-                        <div class="col-5 mb-2">
-                            <span class="fs-6">www.larcohotel.com</span>
+                            <span class="font-size-12 pointer" id="mobile-site"></span>
                         </div>
                         <div class="col-2"></div>
                     </div>
@@ -416,8 +414,10 @@
 
     <!-- Footer start -->
     <footer class="bg-dark p-2 text-end">
-        <button class="btn btn-dark btn-dark btn-sm fs-5">Terms and Conditions</button>
-        <button class="btn btn-dark btn-dark btn-sm fs-5">Cancellation Policy</button>
+        <button class="btn btn-dark btn-dark btn-sm fs-5" onclick="window.location.reload()">Terms and
+            Conditions</button>
+        <button class="btn btn-dark btn-dark btn-sm fs-5" onclick="window.location.reload()">Cancellation
+            Policy</button>
     </footer>
     <!-- Footer end -->
 
@@ -426,7 +426,9 @@
 </body>
 <script type="text/javascript" src="./assets/js/plugin/jquery.min.js?v=1"></script>
 <script type="text/javascript" src="./assets/js/call.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/plugin/popper.min.js?v=1"></script>
 <script type="text/javascript" src="./assets/js/plugin/bootstrap.bundle.min.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/room-card.js?v=1"></script>
 <script type="text/javascript" src="./assets/js/main.js?v=1"></script>
 <script type="text/javascript" src="./assets/js/plugin/moment.min.js?v=1"></script>
 <script type="text/javascript" src="./assets/js/plugin/daterangepicker.min.js?v=1"></script>
