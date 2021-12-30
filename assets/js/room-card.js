@@ -5,12 +5,13 @@ const fetchRoomList = async () => {
     rooms = [...rooms, ...resp.rooms];
     setDesktopRoomCard(rooms)
 }
-
+let roomList = [];
 const setDesktopRoomCard = (rooms) => {
+    roomList = rooms;
     const elem = document.getElementById('room-card');
     const params = new URLSearchParams(location.search);
     let ind = 0;
-    rooms.forEach(itm => {
+    roomList.forEach(itm => {
         const room = itm.room_details;
         console.log(itm)
         let imageSlider = '';
@@ -48,8 +49,8 @@ const setDesktopRoomCard = (rooms) => {
         `;
 
         let amenitiesList = '';
-        for(let i = 0; i < room.amenities.length; i++) {
-            if(i === 5) {
+        for (let i = 0; i < room.amenities.length; i++) {
+            if (i === 5) {
                 break;
             }
             amenitiesList += `
@@ -71,8 +72,7 @@ const setDesktopRoomCard = (rooms) => {
                                 <p class="card-text font-size-14 description m-0 mb-1">
                                     ${itm.description}
                                 </p>
-                                <button class="btn bg-white text-bright-yellow btn-sm font-size-14 ps-0" data-bs-toggle="modal"
-                                    data-bs-target="#roomInfoModal">More
+                                <button class="btn bg-white text-bright-yellow btn-sm font-size-14 ps-0" onclick="viewRoomDetail(${ind})">More
                                     about property</button>
                             </div>
                             <div class="col-4">
@@ -222,6 +222,76 @@ const setDesktopRoomCard = (rooms) => {
 
         ind++;
     })
+}
+
+const viewRoomDetail = (ind) => {
+    const modal = new bootstrap.Modal(document.getElementById("roomInfoModal"), {});
+    modal.show();
+
+    const room = roomList[ind];
+    console.log(room)
+    document.getElementById('roomName').innerHTML = room.name;
+
+    let total_beds = 0;
+    for (houseroom of room.room_details.room_types_houserooms) {
+        total_beds += houseroom.beds.length;
+    }
+
+    let imgInd = 0;
+    let indicators = '';
+    let images = '';
+    room.room_details.roomImages.forEach(img => {
+        const active = imgInd === 0 ? 'active' : '';
+        indicators += `
+        <button type="button" data-bs-target="#roomImages2" data-bs-slide-to="${imgInd}" class="${active} dot" aria-current="true" aria-label="Slide ${imgInd}"></button>
+        `;
+
+        images += `
+            <div class="carousel-item ${active}">
+                <img src="${img.url}" class="d-block w-100 border-radius-10"
+                    alt="room" />
+            </div>
+        `;
+        imgInd++;
+    });
+
+    document.getElementById('ri-indicator').innerHTML = indicators;
+    document.getElementById('ri-images').innerHTML = images;
+
+    let amenities = `
+        <div class="col-md-12 mt-2 mb-2">
+            <h4><b>Amenities</b></h4>
+        </div>
+    `;
+    room.room_details.amenities.forEach(am => {
+        amenities += `
+            <div class="col-md-4 p-2 text-dark-grey">
+            <span class="modal-amenity-icon me-2" data-bs-toggle="tooltip">${all_amenities[am.name].image}</span>
+                <span class="font-size-12">${all_amenities[am.name].name}</span>
+            </div>
+        `;
+    });
+
+    document.getElementById('ri-am').innerHTML = amenities;
+
+    const room_info = `
+        <span class="font-size-13 p-2 border-end">
+            <span class="material-icons inline-icon">people</span> ${room.occupancy}
+        </span>
+        <span class="font-size-13 p-2 border-end">
+            <span class="material-icons inline-icon">bed</span> ${total_beds}
+        </span>
+        <span class="font-size-13 p-2">
+            <span class="material-icons inline-icon">home</span>
+            ${room.area}m<sup>2</sup>
+        </span>
+    `;
+
+    document.getElementById('ri-info').innerHTML = room_info;
+    document.getElementById('ri-description').innerHTML = room.description;
+
+    settings.currency
+
 }
 
 let all_amenities = {};
