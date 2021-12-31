@@ -39,7 +39,8 @@ const initPage = () => {
 
 const initDatePicker = () => {
     $('#dateRange').daterangepicker({
-        opens: 'left'
+        opens: 'center',
+        autoApply: true,
     }, (start, end, label) => {
         dfrom = start.format('YYYY-MM-DD');
         dto = end.format('YYYY-MM-DD')
