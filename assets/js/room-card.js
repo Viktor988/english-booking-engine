@@ -460,7 +460,6 @@ const setTabletRoomCard = (rooms) => {
 const setMobileRoomCard = (rooms) => {
     roomList = rooms;
     const elem = document.getElementById('mobile-room-card');
-    const params = new URLSearchParams(location.search);
     let ind = 0;
     roomList.forEach(itm => {
         const room = itm.room_details;
@@ -492,7 +491,7 @@ const setMobileRoomCard = (rooms) => {
         }
 
         elem.innerHTML += `
-            <div class="card mb-3" style="border-radius: 12px;">
+            <div class="card mb-3 ms-3 me-3" style="border-radius: 12px;">
                 <div class="card-img-top position-relative">
                     <div class="font-size-14 bg-occur-yellow text-white p-2 price-badge-mobile">
                         <span>Price from <b class="font-size-14">${itm.price}</b> ${settings.currency}</span>
