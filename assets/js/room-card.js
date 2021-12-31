@@ -6,6 +6,12 @@ const fetchRoomList = async () => {
     setDesktopRoomCard(rooms);
     setTabletRoomCard(rooms);
     setMobileRoomCard(rooms);
+    document.getElementById('room-loader').style.display = 'none';
+    setTimeout(() => {
+        document.getElementById('room-card').style.display = 'block';
+        document.getElementById('tablet-room-card').style.display = 'block';
+        document.getElementById('mobile-room-card').style.display = 'block';
+    }, 500);
 }
 let roomList = [];
 const setDesktopRoomCard = (rooms) => {
