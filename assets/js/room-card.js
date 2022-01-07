@@ -106,10 +106,10 @@ const setDesktopRoomCard = (rooms) => {
                     </div>
 
                     <!-- view availability start -->
-                    <div class="col-12 bg-light-grey p-2 mb-4">
+                    <div class="col-12 bg-light-grey p-2 mb-4" id="d-av-${ind}">
                         <div class="row p-1">
                             <div class="col-8">
-                                <button class="btn btn-dark btn-sm border-radius-8 fs-6">See
+                                <button class="btn btn-dark btn-sm border-radius-8 fs-6" onclick="viewAvailability(${ind})">See
                                     availability</button>
                             </div>
                             <div class="col-4 pt-1">
@@ -120,7 +120,7 @@ const setDesktopRoomCard = (rooms) => {
                     <!-- view availability end -->
         
                     <!-- availability option start -->
-                    <!-- <div class="col-12 bg-light-grey ps-1 pe-1 position-relative">
+                    <div class="col-12 bg-light-grey ps-1 pe-1 position-relative" id="av-${ind}" style="display:none">
                         <div class="row">
                             <div class="col-md-4 pb-1">
                                 <div class="row">
@@ -196,7 +196,7 @@ const setDesktopRoomCard = (rooms) => {
                             </div>
                         </div>
                     </div>
-                    <div class="row ps-2 mt-2 mb-2">
+                    <div class="row ps-2 mt-2 mb-2" id="pd-${ind}" style="display:none;">
                         <div class="col-md-4 text-center">
                             <span class="fs-5">11 days</span>
                         </div>
@@ -220,7 +220,7 @@ const setDesktopRoomCard = (rooms) => {
                             <div class="fs-6"><b>550</b> <sup>EUR</sup></div>
                             <div class="font-size-8 text-light-grey">For staying</div>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- availability option start -->
                 </div>
             </div>
@@ -625,6 +625,23 @@ const viewRoomDetail = (ind) => {
 
     settings.currency
 
+}
+
+const viewAvailability = (ind) => {
+    if(!dfrom || !dto) {
+        const toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        const toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl)
+        });
+        toastList.forEach(toast => toast.show());
+        document.getElementById('toast-msg').innerHTML = 'Please add check in and check out date.'
+        return;
+    }
+    document.getElementById('d-av-' + ind).style.display = 'none';
+    const elem = document.getElementById('av-' + ind);
+    const elem2 = document.getElementById('pd-' + ind);
+    elem.style.removeProperty('display')
+    elem2.style.removeProperty('display')
 }
 
 let all_amenities = {};
