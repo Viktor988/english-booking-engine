@@ -1,4 +1,5 @@
 const fetchRoomList = async () => {
+    showLoader();
     const specialRooms = await getSpecialOffer(adults, children, dfrom, dto);
     let rooms = specialRooms;
     const resp = await getRooms(adults, settings.currency, dfrom.dto);
@@ -6,7 +7,7 @@ const fetchRoomList = async () => {
     setDesktopRoomCard(rooms);
     setTabletRoomCard(rooms);
     setMobileRoomCard(rooms);
-    document.getElementById('room-loader').style.display = 'none';
+    hideLoader();
     setTimeout(() => {
         document.getElementById('room-card').style.display = 'block';
         document.getElementById('tablet-room-card').style.display = 'block';
@@ -26,8 +27,12 @@ const setDesktopRoomCard = (rooms) => {
         let imageButton = '';
         let roomInd = 0;
         let total_beds = 0;
-        for (houseroom of room.room_types_houserooms) {
-            total_beds += houseroom.beds.length;
+        if(room && room.room_types_houserooms) {
+            for (houseroom of room.room_types_houserooms) {
+                total_beds += houseroom.beds.length;
+            }
+        } else {
+            return
         }
         room.roomImages.forEach(img => {
             const active = roomInd === 0 ? 'active' : '';
@@ -629,12 +634,7 @@ const viewRoomDetail = (ind) => {
 
 const viewAvailability = (ind) => {
     if(!dfrom || !dto) {
-        const toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        const toastList = toastElList.map(function (toastEl) {
-            return new bootstrap.Toast(toastEl)
-        });
-        toastList.forEach(toast => toast.show());
-        document.getElementById('toast-msg').innerHTML = 'Please add check in and check out date.'
+        showToast('Please add check in and check out date.','secondary')
         return;
     }
     document.getElementById('d-av-' + ind).style.display = 'none';

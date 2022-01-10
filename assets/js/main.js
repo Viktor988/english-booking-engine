@@ -5,6 +5,13 @@ let languages = [];
 let adults = 1;
 let children = 0;
 let promocode = '';
+const contact = {
+    check_in: '',
+    check_out: '',
+    first_last_name: '',
+    email: '',
+    message: '',
+}
 
 $(document).ready(() => {
     initPage();
@@ -35,6 +42,8 @@ const initPage = () => {
 
     document.getElementById('noOfAdult').innerHTML = adults;
     document.getElementById('noOfChildren').innerHTML = children;
+    const currentDate = new Date();
+    contact.check_out = contact.check_in = moment(currentDate).format('YYYY-MM-DD');
 }
 
 const initDatePicker = () => {
@@ -45,6 +54,22 @@ const initDatePicker = () => {
         dfrom = start.format('YYYY-MM-DD');
         dto = end.format('YYYY-MM-DD')
         setDate(start.format('DD MMMM'), end.format('DD MMMM'));
+    });
+
+    $('#checkin').daterangepicker({
+        opens: 'center',
+        singleDatePicker: true,
+        autoApply: true
+    }, (start, end, label) => {
+        document.getElementById('checkin').value = contact.check_in = start.format('YYYY-MM-DD');
+    });
+
+    $('#checkout').daterangepicker({
+        opens: 'center',
+        singleDatePicker: true,
+        autoApply: true
+    }, (start, end, label) => {
+        document.getElementById('checkout').value = contact.check_out = start.format('YYYY-MM-DD');
     });
 }
 
@@ -314,4 +339,59 @@ const setGuestFilter = () => {
         document.getElementById('addGuestDropDown').classList.remove('bg-bright-yellow-tint');
         document.getElementById('addGuestDropDown').classList.add('bg-white');
     }
+}
+
+const loader = new bootstrap.Modal(document.getElementById('loader-modal'), {
+    keyboard: false
+})
+
+const showLoader = (msg = "Loading...") => {
+    document.getElementById('loader-msg').innerHTML = msg;
+    loader.show();
+}
+
+const hideLoader = () => {
+    setTimeout(() => loader.hide(), 1000);
+}
+
+const showToast = (message, bg = 'light') => {
+    const bgObj = {
+        'primary': 'white',
+        'secondary': 'white',
+        'white': 'dark',
+        'light': 'dark',
+        'danger': 'white',
+        'success': 'white'
+    }
+    const toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    const toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl)
+    });
+    const toast = document.getElementById('toast');
+    toast.classList.add('bg-' + bg);
+    toast.classList.add('text-' + bgObj[bg]);
+    toastList.forEach(toast => toast.show());
+    document.getElementById('toast-msg').innerHTML = message;
+}
+
+const saveContactUsInfo = async () => {
+    contact.first_last_name = document.getElementById('fullname').value.trim();
+    contact.email = document.getElementById('email').value.trim();
+    contact.message = document.getElementById('note').value.trim();
+    console.log(contact)
+    if (!contact.check_in || !contact.first_last_name || !contact.check_out || !contact.email || !contact.message) {
+        showToast('Please add all details.', 'danger');
+        return;
+    }
+    sendMessage(contact);
+    const modal = bootstrap.Modal.getInstance(document.getElementById("contactModal"));
+    modal.hide();
+    showToast('<span class="material-icons fs-5 inline-icon text-bold">check_circle</span> Email Sent.', 'success')
+}
+
+const resetContactUs = () => {
+    contact.check_in = contact.check_out = contact.first_last_name = contact.email = contact.message = '';
+    document.getElementById('fullname').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('note').value = '';
 }

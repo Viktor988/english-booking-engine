@@ -72,7 +72,7 @@ const getSpecialOffer = (adults, children, date_arrival, date_departure) => {
     const data = {
         id_properties: params.get('id_properties'),
         id_language: params.get('language'),
-        adults, 
+        adults,
         children,
         dfrom: date_arrival,
         dto: date_departure
@@ -168,7 +168,7 @@ const getLanguage = () => {
 /** Extra api call - start */
 const getExtras = (currency) => {
     const params = new URLSearchParams(location.search);
-    const data = { 
+    const data = {
         id_properties: params.get('id_properties'),
         id_language: params.get('language'),
         currency
@@ -176,3 +176,11 @@ const getExtras = (currency) => {
     return doPost('engine/data/extras', data);
 }
 /** Extra api call - end */
+
+/** Contact US api call - start */
+const sendMessage = (data) => {
+    const params = new URLSearchParams(location.search);
+    data.id_properties = params.get('id_properties');
+    return doPost('engine/insert/sendMessage', data);
+}
+/** Contact US api call - start */
