@@ -1,383 +1,180 @@
+let roomList = [];
+
 const fetchRoomList = async () => {
     showLoader();
     const specialRooms = await getSpecialOffer(adults, children, dfrom, dto);
     let rooms = specialRooms;
-    const resp = await getRooms(adults, settings.currency, dfrom.dto);
+    const resp = await getRooms(adults, settings.currency, dfrom, dto);
     rooms = [...rooms, ...resp.rooms];
+    getSpecialWithPricingPlan(resp.rooms[0].id_room_types, dfrom, dto, settings.currency).then(resp => {
+        console.log(resp);
+    })
     setDesktopRoomCard(rooms);
     setTabletRoomCard(rooms);
     setMobileRoomCard(rooms);
-    hideLoader();
     setTimeout(() => {
         document.getElementById('room-card').style.display = 'block';
         document.getElementById('tablet-room-card').style.display = 'block';
         document.getElementById('mobile-room-card').style.display = 'block';
+        if (dfrom && dto) {
+            for (let i = 0; i < rooms.length; i++) {
+                viewAvailability(i);
+            }
+        }
+        hideLoader();
     }, 500);
 }
-let roomList = [];
+
 const setDesktopRoomCard = (rooms) => {
     roomList = rooms;
     const elem = document.getElementById('room-card');
     let ind = 0;
+    const fromDate = moment(dfrom);
+    const toDate = moment(dto);
+    const noOfDays = dfrom && dto ? toDate.diff(fromDate, 'days') + 1 : 0;
+    console.log(noOfDays)
     roomList.forEach(itm => {
         const room = itm.room_details;
-        console.log(itm)
-        let imageSlider = '';
-        let imageItem = '';
-        let imageButton = '';
-        let roomInd = 0;
-        let total_beds = 0;
-        if(room && room.room_types_houserooms) {
+        if(room) {
+            console.log(itm)
+            let imageSlider = '';
+            let imageItem = '';
+            let imageButton = '';
+            let roomInd = 0;
+            let total_beds = 0;
             for (houseroom of room.room_types_houserooms) {
                 total_beds += houseroom.beds.length;
             }
-        } else {
-            return
-        }
-        room.roomImages.forEach(img => {
-            const active = roomInd === 0 ? 'active' : '';
-            imageItem += `
-            <div class="carousel-item h-100 ` + active + `">
-                <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius"
-                    alt="room" />
-            </div>
-            `;
-
-            imageButton += `
-            <button type="button" data-bs-target="#roomImages${ind}" data-bs-slide-to="${roomInd}" class="${active} dot" aria-current="true" aria-label="Slide"></button>
-            `;
-            roomInd++;
-        });
-
-        imageSlider += `
-            <div id="roomImages${ind}" class="carousel slide rounded-start h-100" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    ${imageButton}
+            room.roomImages.forEach(img => {
+                const active = roomInd === 0 ? 'active' : '';
+                imageItem += `
+                <div class="carousel-item h-100 ` + active + `">
+                    <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius"
+                        alt="room" />
                 </div>
-                <div class="carousel-inner slider-image-border-radius h-100" >
-                    ${imageItem}
+                `;
+    
+                imageButton += `
+                <button type="button" data-bs-target="#roomImages${ind}" data-bs-slide-to="${roomInd}" class="${active} dot" aria-current="true" aria-label="Slide"></button>
+                `;
+                roomInd++;
+            });
+    
+            imageSlider += `
+                <div id="roomImages${ind}" class="carousel slide rounded-start h-100" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        ${imageButton}
+                    </div>
+                    <div class="carousel-inner slider-image-border-radius h-100" >
+                        ${imageItem}
+                    </div>
                 </div>
-            </div>
-        `;
-
-        let amenitiesList = '';
-        for (let i = 0; i < room.amenities.length; i++) {
-            if (i === 5) {
-                break;
+            `;
+    
+            let amenitiesList = '';
+            for (let i = 0; i < room.amenities.length; i++) {
+                if (i === 5) {
+                    break;
+                }
+                amenitiesList += `
+                    <span class="amenity-icon me-2" data-bs-toggle="tooltip" title="${all_amenities[room.amenities[i].name].name}">${all_amenities[room.amenities[i].name].image}</span>
+                `;
             }
-            amenitiesList += `
-                <span class="amenity-icon me-2" data-bs-toggle="tooltip" title="${all_amenities[room.amenities[i].name].name}">${all_amenities[room.amenities[i].name].image}</span>
-            `;
-        }
-
-        elem.innerHTML += `
-        <div class="card m-3 border-radius-16 shadow room-info-card">
-            <div class="row g-0">
-                <div class="col-md-4" style="max-height:270px">
-                    ${imageSlider}
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body p-0 pt-4 ps-4">
-                        <div class="row">
-                            <div class="col-8">
-                                <h2 class="card-title mb-2"><b>${itm.name}</b></h2>
-                                <p class="card-text font-size-14 description m-0 mb-1">
-                                    ${itm.description}
-                                </p>
-                                <button class="btn bg-white text-bright-yellow btn-sm font-size-14 ps-0" onclick="viewRoomDetail(${ind})">More
-                                    about property</button>
-                            </div>
-                            <div class="col-4">
-                                <div class="font-size-14 bg-occur-yellow text-white p-2 price-badge">
-                                    <span>Price from <b class="font-size-14">${itm.price}</b> ${settings.currency}</span>
-                                </div>
-                                <div class="room-info mb-4 mt-4 text-end">
-                                    <span class="font-size-13 p-2 border-end">
-                                        <span class="material-icons inline-icon">people</span> ${itm.occupancy}
-                                    </span>
-                                    <span class="font-size-13 p-2 border-end">
-                                        <span class="material-icons inline-icon">bed</span> ${total_beds}
-                                    </span>
-                                    <span class="font-size-13 p-2">
-                                        <span class="material-icons inline-icon">home</span>
-                                        ${itm.area}m<sup>2</sup>
-                                    </span>
-                                </div>
-                                <div class="text-end pt-3 pb-3">
-                                    ${amenitiesList}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- view availability start -->
-                    <div class="col-12 bg-light-grey p-2 mb-4" id="d-av-${ind}">
-                        <div class="row p-1">
-                            <div class="col-8">
-                                <button class="btn btn-dark btn-sm border-radius-8 fs-6" onclick="viewAvailability(${ind})">See
-                                    availability</button>
-                            </div>
-                            <div class="col-4 pt-1">
-                                <span class="fs-6">Pick a date to get rates</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- view availability end -->
-        
-                    <!-- availability option start -->
-                    <div class="col-12 bg-light-grey ps-1 pe-1 position-relative" id="av-${ind}" style="display:none">
-                        <div class="row">
-                            <div class="col-md-4 pb-1">
-                                <div class="row">
-                                    <div class="col-5 p-0 ps-3">
-                                        <span class="font-size-12">Check-In</span><br>
-                                        <b class="font-size-14">11 November</b>
-                                    </div>
-                                    <div class="col-2 p-0">
-                                        <span class="material-icons fs-5 mt-3 text-occur-yellow">east</span>
-                                    </div>
-                                    <div class="col-5 p-0">
-                                        <span class="font-size-12">Check-Out</span><br>
-                                        <b class="font-size-14">11 November</b>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 p-1 text-center">
-                                <div class="dropdown pt-2">
-                                    <button class="btn bg-white fs-7 text-dark dropdown-toggle p-1" type="button"
-                                        id="priceRateDropdDown1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span>Standard Rate</span>
-                                        <span class="material-icons inline-icon text-bold fs-4">expand_more</span>
-                                    </button>
-                                    <ul class="dropdown-menu selection-dropdown-lg" aria-labelledby="priceRateDropdDown1">
-                                        <li class="dropdown-item">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <b class="fs-5">Standard Rate</b>
-                                                </div>
-                                                <div class="col-6 text-end">
-                                                    <span class="font-size-10">Per night</span>
-                                                    <b class="fs-5">25</b>
-                                                </div>
-                                                <div class="col-12">
-                                                    <span class="text-light-grey fs-6"><b>Description</b></span>
-                                                    <p class="font-size-12 mb-1">Here is the test
-                                                        description</p>
-                                                    <span class="text-light-grey fs-6"><b>Cancellation
-                                                            Policy</b>
-                                                    </span>
-                                                    <p class="font-size-12">Here is the test policy</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-3 p-1">
-                                <div class="row pt-1">
-                                    <div class="col-md-4 fs-6 pt-2">
-                                        <span>Unit</span>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="d-grid gap-3 d-md-block">
-                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6" type="button">
-                                                <span class="material-icons m-1 fs-6">remove</span>
-                                            </button>
-                                            <button class="btn btn-sm bg-light-grey text-dark fs-6" type="button">
-                                                2
-                                            </button>
-                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6" type="button">
-                                                <span class="material-icons m-1 fs-6">add</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-dark ps-4 pe-4 border-0 position-absolute top-0 end-0 h-100"
-                                    onclick="window.location.href = 'booking.html'">
-                                    <span class="fs-5">Book</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ps-2 mt-2 mb-2" id="pd-${ind}" style="display:none;">
-                        <div class="col-md-4 text-center">
-                            <span class="fs-5">11 days</span>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-5 p-0 text-end">
-                                    <div class="fs-6">25 <sup>EUR</sup></div>
-                                    <div class="font-size-10 text-light-grey">Per Night</div>
-                                </div>
-                                <div class="col-2 p-0 pt-1 text-center text-light-grey fw-lighter">/</div>
-                                <div class="col-5 p-0">
-                                    <div class="fs-6"><b>275</b> <sup>EUR</sup></div>
-                                    <div class="font-size-10 text-light-grey">Per Night</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <span class="fs-5">2 rooms</span>
-                        </div>
-                        <div class="col-md-2 text-end pe-4">
-                            <div class="fs-6"><b>550</b> <sup>EUR</sup></div>
-                            <div class="font-size-8 text-light-grey">For staying</div>
-                        </div>
-                    </div>
-                    <!-- availability option start -->
-                </div>
-            </div>
-        </div>
-        `;
-
-        ind++;
-    })
-}
-
-const setTabletRoomCard = (rooms) => {
-    roomList = rooms;
-    const elem = document.getElementById('tablet-room-card');
-    const params = new URLSearchParams(location.search);
-    let ind = 0;
-    roomList.forEach(itm => {
-        const room = itm.room_details;
-        let imageItem = '';
-        let roomInd = 0;
-        let total_beds = 0;
-        for (houseroom of room.room_types_houserooms) {
-            total_beds += houseroom.beds.length;
-        }
-        room.roomImages.forEach(img => {
-            const active = roomInd === 0 ? 'active' : '';
-            imageItem += `
-            <div class="carousel-item h-100 ` + active + `">
-                <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius-tab"
-                    alt="room" />
-            </div>
-            `;
-            roomInd++;
-        });
-
-        let amenitiesList = '';
-        for (let i = 0; i < room.amenities.length; i++) {
-            if (i === 5) {
-                break;
-            }
-            amenitiesList += `
-                <span class="amenity-icon me-2" data-bs-toggle="tooltip" title="${all_amenities[room.amenities[i].name].name}">${all_amenities[room.amenities[i].name].image}</span>
-            `;
-        }
-
-        elem.innerHTML += `
+    
+            elem.innerHTML += `
             <div class="card m-3 border-radius-16 shadow room-info-card">
                 <div class="row g-0">
-                    <div class="col-md-4">
-                        <div class="position-relative">
-                            <div class="text-white text-center"
-                                style="position: absolute; z-index: 999; bottom: 5%; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 100%;">
-                                <span class="font-size-12 p-2 border-end">
-                                    <span class="material-icons inline-icon">people</span>
-                                    <span class="font-size-11">${itm.occupancy}</span>
-                                </span>
-                                <span class="font-size-12 p-2 border-end">
-                                    <span class="material-icons inline-icon">bed</span>
-                                    <span class="font-size-11">${total_beds}</span>
-                                </span>
-                                <span class="font-size-12 p-2">
-                                    <span class="material-icons inline-icon">home</span>
-                                    <span class="font-size-11">${itm.area}m<sup>2</sup></span>
-                                </span>
-                            </div>
-                            <div id="tabRoomImages${ind}" class="carousel slide rounded-start h-100"
-                                data-bs-ride="carousel">
-                                <div class="carousel-inner slider-image-border-radius-tablet h-100">
-                                ${imageItem}
-                                </div>
-                                <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#tabRoomImages${ind}" data-bs-slide="prev">
-                                    <span
-                                        class="carousel-control-prev-icon absolute-left bg-mid-grey text-white p-2"
-                                        aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button"
-                                    data-bs-target="#tabRoomImages${ind}" data-bs-slide="next">
-                                    <span
-                                        class="carousel-control-next-icon absolute-right bg-mid-grey text-white p-2"
-                                        aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="col-md-4" style="max-height:270px">
+                        ${imageSlider}
                     </div>
                     <div class="col-md-8">
-                        <div class="card-body">
+                        <div class="card-body p-0 pt-4 ps-4">
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="font-size-14 bg-occur-yellow text-white p-2 price-badge">
-                                        <span>Price from <b class="font-size-14">${itm.price}</b> ${settings.currency}</span>
-                                    </div>
-                                    <h4 class="mb-2"><b>${itm.name}</b></h4>
-                                    <p class="card-text font-size-14 description m-0 mb-4">${itm.description}</p>
-                                </div>
-                                <div class="col-6">
+                                <div class="col-8">
+                                    <h2 class="card-title mb-2"><b>${itm.name}</b></h2>
+                                    <p class="card-text font-size-14 description m-0 mb-1">
+                                        ${itm.description}
+                                    </p>
                                     <button class="btn bg-white text-bright-yellow btn-sm font-size-14 ps-0" onclick="viewRoomDetail(${ind})">More
                                         about property</button>
                                 </div>
-                                <div class="col-6">
-                                    <div class="amenity-icon text-end">
+                                <div class="col-4">
+                                    <div class="font-size-14 bg-occur-yellow text-white p-2 price-badge">
+                                        <span>Price from <b class="font-size-14">${itm.price}</b> ${settings.currency}</span>
+                                    </div>
+                                    <div class="room-info mb-4 mt-4 text-end">
+                                        <span class="font-size-13 p-2 border-end">
+                                            <span class="material-icons inline-icon">people</span> ${itm.occupancy}
+                                        </span>
+                                        <span class="font-size-13 p-2 border-end">
+                                            <span class="material-icons inline-icon">bed</span> ${total_beds}
+                                        </span>
+                                        <span class="font-size-13 p-2">
+                                            <span class="material-icons inline-icon">home</span>
+                                            ${itm.area}m<sup>2</sup>
+                                        </span>
+                                    </div>
+                                    <div class="text-end pt-3 pb-3">
                                         ${amenitiesList}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+    
+                        <!-- view availability start -->
+                        <div class="col-12 bg-light-grey p-2 mb-4" id="d-av-${ind}">
+                            <div class="row p-1">
+                                <div class="col-8">
+                                    <button class="btn btn-dark btn-sm border-radius-8 fs-6" onclick="viewAvailability(${ind})">See
+                                        availability</button>
+                                </div>
+                                <div class="col-4 pt-1" id="d-date-validation-${ind}" style="display:none;">
+                                    <span class="fs-6">Pick a date to get rates</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- view availability end -->
+            
                         <!-- availability option start -->
-                        <!-- <div class="col-12 bg-light-grey ps-1 pe-1 position-relative">
+                        <div class="col-12 bg-light-grey ps-1 pe-1 position-relative" id="av-${ind}" style="display:none">
                             <div class="row">
-                                <div class="col-md-4 pb-1">
+                                <div class="col-md-4 pb-1 pe-0">
                                     <div class="row">
                                         <div class="col-5 p-0 ps-3">
                                             <span class="font-size-12">Check-In</span><br>
-                                            <b class="font-size-14">11 November</b>
+                                            <b class="font-size-13">${moment(dfrom).format('DD MMMM')}</b>
                                         </div>
                                         <div class="col-2 p-0">
                                             <span class="material-icons fs-5 mt-3 text-occur-yellow">east</span>
                                         </div>
                                         <div class="col-5 p-0">
                                             <span class="font-size-12">Check-Out</span><br>
-                                            <b class="font-size-14">11 November</b>
+                                            <b class="font-size-13">${moment(dto).format('DD MMMM')}</b>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 p-1 text-center">
                                     <div class="dropdown pt-2">
-                                        <button class="btn bg-white fs-7 text-dark dropdown-toggle p-1"
-                                            type="button" id="priceRateDropdDown1" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
+                                        <button class="btn bg-white font-size-13 text-dark dropdown-toggle p-1" type="button"
+                                            id="priceRateDropdDown1" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span>Standard Rate</span>
-                                            <span
-                                                class="material-icons inline-icon text-bold fs-4">expand_more</span>
+                                            <span class="material-icons inline-icon text-bold font-size-18">expand_more</span>
                                         </button>
-                                        <ul class="dropdown-menu selection-dropdown-lg"
-                                            aria-labelledby="priceRateDropdDown1">
+                                        <ul class="dropdown-menu selection-dropdown-lg" aria-labelledby="priceRateDropdDown1">
                                             <li class="dropdown-item">
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <b class="fs-5">Standard Rate</b>
+                                                        <b class="font-size-14">Standard Rate</b>
                                                     </div>
                                                     <div class="col-6 text-end">
                                                         <span class="font-size-10">Per night</span>
-                                                        <b class="fs-5">25</b>
+                                                        <b class="font-size-14">25</b>
                                                     </div>
                                                     <div class="col-12">
-                                                        <span
-                                                            class="text-light-grey fs-6"><b>Description</b></span>
+                                                        <span class="text-light-grey font-size-14"><b>Description</b></span>
                                                         <p class="font-size-12 mb-1">Here is the test
                                                             description</p>
-                                                        <span class="text-light-grey fs-6"><b>Cancellation
+                                                        <span class="text-light-grey font-size-14"><b>Cancellation
                                                                 Policy</b>
                                                         </span>
                                                         <p class="font-size-12">Here is the test policy</p>
@@ -389,39 +186,35 @@ const setTabletRoomCard = (rooms) => {
                                 </div>
                                 <div class="col-md-3 p-1">
                                     <div class="row pt-1">
-                                        <div class="col-md-4 fs-6 pt-2">
+                                        <div class="col-md-4 font-size-14 pt-2">
                                             <span>Unit</span>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="d-grid gap-3 d-md-block">
-                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                    type="button">
-                                                    <span class="material-icons m-1 fs-6">remove</span>
+                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 font-size-14" type="button">
+                                                    <span class="material-icons m-1 font-size-14">remove</span>
                                                 </button>
-                                                <button class="btn btn-sm bg-light-grey text-dark fs-6"
-                                                    type="button">
-                                                    2
+                                                <button class="btn btn-sm bg-light-grey text-dark font-size-14" type="button">
+                                                    ${adults}
                                                 </button>
-                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                    type="button">
-                                                    <span class="material-icons m-1 fs-6">add</span>
+                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 font-size-14" type="button">
+                                                    <span class="material-icons m-1 font-size-14">add</span>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <button
-                                        class="btn btn-dark ps-4 pe-4 border-0 position-absolute top-0 end-0 h-100"
+                                <div class="col-md-2 ps-0">
+                                    <button class="btn btn-dark ps-4 pe-4 border-0 position-absolute top-0 end-0 h-100"
                                         onclick="window.location.href = 'booking.html'">
                                         <span class="fs-5">Book</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row ps-2 mt-2 mb-2">
+                        <div class="row ps-2 mt-2 mb-2" id="pd-${ind}" style="display:none;">
                             <div class="col-md-4 text-center">
-                                <span class="fs-5">11 days</span>
+                                <span class="fs-5">${noOfDays} days</span>
                             </div>
                             <div class="col-md-3">
                                 <div class="row">
@@ -443,28 +236,249 @@ const setTabletRoomCard = (rooms) => {
                                 <div class="fs-6"><b>550</b> <sup>EUR</sup></div>
                                 <div class="font-size-8 text-light-grey">For staying</div>
                             </div>
-                        </div> -->
+                        </div>
                         <!-- availability option start -->
                     </div>
                 </div>
+            </div>
+            `;
+    
+            ind++;
+        }
+    })
+}
 
-                <!-- view availability start -->
-                <div class="col-12 bg-light-grey p-2 mb-4">
-                    <div class="row p-1">
-                        <div class="col-8">
-                            <button class="btn btn-dark btn-sm border-radius-8 fs-6">See
-                                availability</button>
+const setTabletRoomCard = (rooms) => {
+    roomList = rooms;
+    const elem = document.getElementById('tablet-room-card');
+    const params = new URLSearchParams(location.search);
+    let ind = 0;
+    roomList.forEach(itm => {
+        const room = itm.room_details;
+        if (room) {
+            let imageItem = '';
+            let roomInd = 0;
+            let total_beds = 0;
+            for (houseroom of room.room_types_houserooms) {
+                total_beds += houseroom.beds.length;
+            }
+            room.roomImages.forEach(img => {
+                const active = roomInd === 0 ? 'active' : '';
+                imageItem += `
+                <div class="carousel-item h-100 ` + active + `">
+                    <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius-tab"
+                        alt="room" />
+                </div>
+                `;
+                roomInd++;
+            });
+
+            let amenitiesList = '';
+            for (let i = 0; i < room.amenities.length; i++) {
+                if (i === 5) {
+                    break;
+                }
+                amenitiesList += `
+                    <span class="amenity-icon me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="${all_amenities[room.amenities[i].name].name}">${all_amenities[room.amenities[i].name].image}</span>
+                `;
+            }
+
+            elem.innerHTML += `
+                <div class="card m-3 border-radius-16 shadow room-info-card">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <div class="position-relative">
+                                <div class="text-white text-center"
+                                    style="position: absolute; z-index: 999; bottom: 5%; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 100%;">
+                                    <span class="font-size-12 p-2 border-end">
+                                        <span class="material-icons inline-icon">people</span>
+                                        <span class="font-size-11">${itm.occupancy}</span>
+                                    </span>
+                                    <span class="font-size-12 p-2 border-end">
+                                        <span class="material-icons inline-icon">bed</span>
+                                        <span class="font-size-11">${total_beds}</span>
+                                    </span>
+                                    <span class="font-size-12 p-2">
+                                        <span class="material-icons inline-icon">home</span>
+                                        <span class="font-size-11">${itm.area}m<sup>2</sup></span>
+                                    </span>
+                                </div>
+                                <div id="tabRoomImages${ind}" class="carousel slide rounded-start h-100"
+                                    data-bs-ride="carousel">
+                                    <div class="carousel-inner slider-image-border-radius-tablet h-100">
+                                    ${imageItem}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#tabRoomImages${ind}" data-bs-slide="prev">
+                                        <span
+                                            class="carousel-control-prev-icon absolute-left bg-mid-grey text-white p-2"
+                                            aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#tabRoomImages${ind}" data-bs-slide="next">
+                                        <span
+                                            class="carousel-control-next-icon absolute-right bg-mid-grey text-white p-2"
+                                            aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-4 pt-1">
-                            <span class="fs-6">Pick a date to get rates</span>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="font-size-14 bg-occur-yellow text-white p-2 price-badge">
+                                            <span>Price from <b class="font-size-14">${itm.price}</b> ${settings.currency}</span>
+                                        </div>
+                                        <h4 class="mb-2"><b>${itm.name}</b></h4>
+                                        <p class="card-text font-size-14 description m-0 mb-4">${itm.description}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn bg-white text-bright-yellow btn-sm font-size-14 ps-0" onclick="viewRoomDetail(${ind})">More
+                                            about property</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="amenity-icon text-end">
+                                            ${amenitiesList}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- availability option start -->
+                            <!-- <div class="col-12 bg-light-grey ps-1 pe-1 position-relative">
+                                <div class="row">
+                                    <div class="col-md-4 pb-1">
+                                        <div class="row">
+                                            <div class="col-5 p-0 ps-3">
+                                                <span class="font-size-12">Check-In</span><br>
+                                                <b class="font-size-14">11 November</b>
+                                            </div>
+                                            <div class="col-2 p-0">
+                                                <span class="material-icons fs-5 mt-3 text-occur-yellow">east</span>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <span class="font-size-12">Check-Out</span><br>
+                                                <b class="font-size-14">11 November</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 p-1 text-center">
+                                        <div class="dropdown pt-2">
+                                            <button class="btn bg-white fs-7 text-dark dropdown-toggle p-1"
+                                                type="button" id="priceRateDropdDown1" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <span>Standard Rate</span>
+                                                <span
+                                                    class="material-icons inline-icon text-bold fs-4">expand_more</span>
+                                            </button>
+                                            <ul class="dropdown-menu selection-dropdown-lg"
+                                                aria-labelledby="priceRateDropdDown1">
+                                                <li class="dropdown-item">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <b class="fs-5">Standard Rate</b>
+                                                        </div>
+                                                        <div class="col-6 text-end">
+                                                            <span class="font-size-10">Per night</span>
+                                                            <b class="fs-5">25</b>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <span
+                                                                class="text-light-grey fs-6"><b>Description</b></span>
+                                                            <p class="font-size-12 mb-1">Here is the test
+                                                                description</p>
+                                                            <span class="text-light-grey fs-6"><b>Cancellation
+                                                                    Policy</b>
+                                                            </span>
+                                                            <p class="font-size-12">Here is the test policy</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 p-1">
+                                        <div class="row pt-1">
+                                            <div class="col-md-4 fs-6 pt-2">
+                                                <span>Unit</span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="d-grid gap-3 d-md-block">
+                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                        type="button">
+                                                        <span class="material-icons m-1 fs-6">remove</span>
+                                                    </button>
+                                                    <button class="btn btn-sm bg-light-grey text-dark fs-6"
+                                                        type="button">
+                                                        2
+                                                    </button>
+                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                        type="button">
+                                                        <span class="material-icons m-1 fs-6">add</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button
+                                            class="btn btn-dark ps-4 pe-4 border-0 position-absolute top-0 end-0 h-100"
+                                            onclick="window.location.href = 'booking.html'">
+                                            <span class="fs-5">Book</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ps-2 mt-2 mb-2">
+                                <div class="col-md-4 text-center">
+                                    <span class="fs-5">11 days</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-5 p-0 text-end">
+                                            <div class="fs-6">25 <sup>EUR</sup></div>
+                                            <div class="font-size-10 text-light-grey">Per Night</div>
+                                        </div>
+                                        <div class="col-2 p-0 pt-1 text-center text-light-grey fw-lighter">/</div>
+                                        <div class="col-5 p-0">
+                                            <div class="fs-6"><b>275</b> <sup>EUR</sup></div>
+                                            <div class="font-size-10 text-light-grey">Per Night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-center">
+                                    <span class="fs-5">2 rooms</span>
+                                </div>
+                                <div class="col-md-2 text-end pe-4">
+                                    <div class="fs-6"><b>550</b> <sup>EUR</sup></div>
+                                    <div class="font-size-8 text-light-grey">For staying</div>
+                                </div>
+                            </div> -->
+                            <!-- availability option start -->
                         </div>
                     </div>
+    
+                    <!-- view availability start -->
+                    <div class="col-12 bg-light-grey p-2 mb-4">
+                        <div class="row p-1">
+                            <div class="col-8">
+                                <button class="btn btn-dark btn-sm border-radius-8 fs-6">See
+                                    availability</button>
+                            </div>
+                            <div class="col-4 pt-1" id="t-date-validation-${ind}" style="display:none;">
+                                <span class="fs-6">Pick a date to get rates</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- view availability end -->
                 </div>
-                <!-- view availability end -->
-            </div>
-        `;
+            `;
 
-        ind++;
+            ind++;
+        }
     })
 }
 
@@ -474,91 +488,93 @@ const setMobileRoomCard = (rooms) => {
     let ind = 0;
     roomList.forEach(itm => {
         const room = itm.room_details;
-        let imageItem = '';
-        let roomInd = 0;
-        let total_beds = 0;
-        for (houseroom of room.room_types_houserooms) {
-            total_beds += houseroom.beds.length;
-        }
-        room.roomImages.forEach(img => {
-            const active = roomInd === 0 ? 'active' : '';
-            imageItem += `
-            <div class="carousel-item h-100 ` + active + `">
-                <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius-mobile"
-                    alt="room" />
-            </div>
-            `;
-            roomInd++;
-        });
-
-        let amenitiesList = '';
-        for (let i = 0; i < room.amenities.length; i++) {
-            if (i === 5) {
-                break;
+        if(room) {
+            let imageItem = '';
+            let roomInd = 0;
+            let total_beds = 0;
+            for (houseroom of room.room_types_houserooms) {
+                total_beds += houseroom.beds.length;
             }
-            amenitiesList += `
-                <span class="amenity-icon me-2" data-bs-toggle="tooltip" title="${all_amenities[room.amenities[i].name].name}">${all_amenities[room.amenities[i].name].image}</span>
-            `;
-        }
-
-        elem.innerHTML += `
-            <div class="card mb-3 ms-3 me-3" style="border-radius: 12px;">
-                <div class="card-img-top position-relative">
-                    <div class="font-size-14 bg-occur-yellow text-white p-2 price-badge-mobile">
-                        <span>Price from <b class="font-size-14">${itm.price}</b> ${settings.currency}</span>
-                    </div>
-                    <div class="text-white text-center"
-                        style="position: absolute; z-index: 999; bottom: 5%; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 100%;">
-                        <span class="font-size-12 p-2 border-end">
-                            <span class="material-icons inline-icon">people</span>
-                            <span class="font-size-11">${itm.occupancy}</span>
-                        </span>
-                        <span class="font-size-12 p-2 border-end">
-                            <span class="material-icons inline-icon">bed</span>
-                            <span class="font-size-11">${total_beds}</span>
-                        </span>
-                        <span class="font-size-12 p-2">
-                            <span class="material-icons inline-icon">home</span>
-                            <span class="font-size-11">${itm.area}m<sup>2</sup></span>
-                        </span>
-                    </div>
-                    <div id="mobRoomImages${ind}" class="carousel slide rounded-start h-100" data-bs-ride="carousel">
-                        <div class="carousel-inner slider-image-border-radius-mobile h-100">
-                            ${imageItem}
+            room.roomImages.forEach(img => {
+                const active = roomInd === 0 ? 'active' : '';
+                imageItem += `
+                <div class="carousel-item h-100 ` + active + `">
+                    <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius-mobile"
+                        alt="room" />
+                </div>
+                `;
+                roomInd++;
+            });
+    
+            let amenitiesList = '';
+            for (let i = 0; i < room.amenities.length; i++) {
+                if (i === 5) {
+                    break;
+                }
+                amenitiesList += `
+                    <span class="amenity-icon me-2" data-bs-toggle="tooltip" title="${all_amenities[room.amenities[i].name].name}">${all_amenities[room.amenities[i].name].image}</span>
+                `;
+            }
+    
+            elem.innerHTML += `
+                <div class="card mb-3 ms-3 me-3" style="border-radius: 12px;">
+                    <div class="card-img-top position-relative">
+                        <div class="font-size-14 bg-occur-yellow text-white p-2 price-badge-mobile">
+                            <span>Price from <b class="font-size-14">${itm.price}</b> ${settings.currency}</span>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#mobRoomImages${ind}"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon absolute-left bg-mid-grey text-white p-2"
-                                aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#mobRoomImages${ind}"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon absolute-right bg-mid-grey text-white p-2"
-                                aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+                        <div class="text-white text-center"
+                            style="position: absolute; z-index: 999; bottom: 5%; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 100%;">
+                            <span class="font-size-12 p-2 border-end">
+                                <span class="material-icons inline-icon">people</span>
+                                <span class="font-size-11">${itm.occupancy}</span>
+                            </span>
+                            <span class="font-size-12 p-2 border-end">
+                                <span class="material-icons inline-icon">bed</span>
+                                <span class="font-size-11">${total_beds}</span>
+                            </span>
+                            <span class="font-size-12 p-2">
+                                <span class="material-icons inline-icon">home</span>
+                                <span class="font-size-11">${itm.area}m<sup>2</sup></span>
+                            </span>
+                        </div>
+                        <div id="mobRoomImages${ind}" class="carousel slide rounded-start h-100" data-bs-ride="carousel">
+                            <div class="carousel-inner slider-image-border-radius-mobile h-100">
+                                ${imageItem}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#mobRoomImages${ind}"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon absolute-left bg-mid-grey text-white p-2"
+                                    aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#mobRoomImages${ind}"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon absolute-right bg-mid-grey text-white p-2"
+                                    aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="mb-2"><b><u>${itm.name}</u></b></h2>
+                        <p class="card-text font-size-14 description m-0 mb-2">
+                            ${itm.description}
+                        </p>
+                        <button class="btn bg-white text-bright-yellow btn-sm font-size-14 ps-0" onclick="viewRoomDetail(${ind})">More
+                            about property</button>
+    
+                        <div class="amenity-icon">
+                            ${amenitiesList}
+                        </div>
+    
+                        <button type="button" class="btn btn-outline-dark mt-3 fw-bold" style="border: 2px solid;">Check availability</button>
+                        <div class="fs-6 mt-3 fw-bold" id="m-date-validation-${ind}" style="display:none;">Pick a date to get rates</div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <h2 class="mb-2"><b><u>${itm.name}</u></b></h2>
-                    <p class="card-text font-size-14 description m-0 mb-2">
-                        ${itm.description}
-                    </p>
-                    <button class="btn bg-white text-bright-yellow btn-sm font-size-14 ps-0" onclick="viewRoomDetail(${ind})">More
-                        about property</button>
-
-                    <div class="amenity-icon">
-                        ${amenitiesList}
-                    </div>
-
-                    <button type="button" class="btn btn-outline-dark mt-3 fw-bold" style="border: 2px solid;">Check availability</button>
-                    <div class="fs-6 mt-3 fw-bold">Pick a date to get rates</div>
-                </div>
-            </div>
-        `;
-
-        ind++;
+            `;
+    
+            ind++;
+        }
     })
 }
 
@@ -633,8 +649,15 @@ const viewRoomDetail = (ind) => {
 }
 
 const viewAvailability = (ind) => {
-    if(!dfrom || !dto) {
-        showToast('Please add check in and check out date.','secondary')
+    if (!dfrom || !dto) {
+        const dElem = document.getElementById(`d-date-validation-${ind}`);
+        if (dElem) dElem.style.removeProperty('display');
+
+        const tElem = document.getElementById(`t-date-validation-${ind}`);
+        if (tElem) tElem.style.removeProperty('display');
+
+        const mElem = document.getElementById(`m-date-validation-${ind}`);
+        if (mElem) mElem.style.removeProperty('display');
         return;
     }
     document.getElementById('d-av-' + ind).style.display = 'none';

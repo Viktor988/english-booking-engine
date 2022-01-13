@@ -1,6 +1,6 @@
 /** Common API call - start */
 // let apiLink = "../../../api/";
-const apiLink = "https://newdb.otasync.me/api/";
+const apiLink = "https://app.otasync.me/api/";
 const doPost = (url, data, contentType = '') => {
     return new Promise((resolve, reject) => {
         const request = {
@@ -53,6 +53,8 @@ const getRooms = (guests, currency, date_arrival, date_departure) => {
         dfrom: date_arrival,
         dto: date_departure
     };
+
+    doPost('engine/data/getPolicy', data)
     return doPost('engine/data/getRooms', data);
 }
 

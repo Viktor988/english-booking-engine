@@ -31,80 +31,180 @@
 
 <body>
     <!-- Navbar start -->
-    <nav class="bg-base text-light">
+    <header class="bg-base text-light">
         <section class="container-fluid">
             <div class="row p-2">
-                <div class="col-md-3">
-                    <img src="./assets//imgs/logo.png" alt="logo" class="img-fluid" />
-                </div>
-                <div class="col-md-3">
-                    <span id="rating">
-                        <span class="material-icons text-light font-size-12">star_outline</span>
-                        <span class="material-icons text-warning font-size-12">star_rate</span>
-                        <span class="material-icons text-warning font-size-12">star_rate</span>
-                        <span class="material-icons text-warning font-size-12">star_rate</span>
-                        <span class="material-icons text-warning font-size-12">star_rate</span>
-                    </span>
-
-                    <a href="#" class="link-light ms-1 font-size-12">1 Review</a>
-
-                    <p class="text-secondary font-size-12 description">Lorem Ipsum is simply dummy text of the
-                        printing
-                        and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
-                        the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
-                        specimen book. It has survived not only five centuries, but also the leap into electronic
-                        typesetting, remaining essentially unchanged.</p>
-                </div>
-                <div class="col-md-4 text-center pt-4">
-                    <button class="btn btn-light contact-us-btn">CONTACT
-                        US</button>
-                </div>
-                <div class="col-md-2 pt-4">
-                    <div class="row">
-                        <div class="col-6 text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
-                                    id="countrySelection" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="./assets/imgs/flags/england.jpg" width="24" />
-                                    <span class="font-size-16">EN</span>
-                                    <span class="material-icons font-size-24 inline-icon text-bold">expand_more</span>
-                                </button>
-                                <ul class="dropdown-menu selection-dropdown" aria-labelledby="countrySelection">
-                                    <li><a class="dropdown-item" href="#"><img src="./assets/imgs/flags/switzerland.jpg"
-                                                width="24" /> <span class="font-size-16">CHE</span></a></li>
-                                    <li><a class="dropdown-item" href="#"><img src="./assets/imgs/flags/spain.jpg"
-                                                width="24" /> <span class="font-size-16">ESP</span></a></li>
-                                </ul>
+                <div class="col-lg-3 col-md-4 col-sm-12 text-center">
+                    <div class="row h-100">
+                        <div class="col-12 d-none d-md-block d-lg-block h-100">
+                            <img src="" alt="logo" class="img-fluid" id="logo" />
+                        </div>
+                        <div class="col-6 d-block d-md-none d-lg-none">
+                            <img src="" alt="logo" class="img-fluid" id="mobile-logo" />
+                        </div>
+                        <div class="col-6 d-block d-md-none d-lg-none p-4">
+                            <div class="row">
+                                <div class="col-6 text-end">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                            id="selectMobileLang" data-bs-toggle="dropdown" aria-expanded="false">
+                                        </button>
+                                        <ul class="dropdown-menu selection-dropdown" aria-labelledby="selectMobileLang"
+                                            id="mobileCountrySelection"></ul>
+                                    </div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                            id="mobileCurrencySelection" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="fs-6">RSD</span>
+                                            <span class="material-icons fs-4 inline-icon text-bold">expand_more</span>
+                                        </button>
+                                        <ul class="dropdown-menu selection-dropdown"
+                                            aria-labelledby="mobileCurrencySelection">
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('EUR')"
+                                                    id="mob-EUR"> EUR </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('RSD')"
+                                                    id="mob-RSD"> RSD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('USD')"
+                                                    id="mob-USD"> USD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('RON')"
+                                                    id="mob-RON"> RON </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('SGD')"
+                                                    id="mob-SGD"> SGD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('PHP')"
+                                                    id="mob-PHP"> PHP </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('CAD')"
+                                                    id="mob-CAD"> CAD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('GBP')"
+                                                    id="mob-GBP"> GBP </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('MYR')"
+                                                    id="mob-MYR"> MYR </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('THB')"
+                                                    id="mob-THB"> THB </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('PLN')"
+                                                    id="mob-PLN"> PLN </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('AOA')"
+                                                    id="mob-AOA"> AOA </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('DZD')"
+                                                    id="mob-DZD"> DZD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('AUD')"
+                                                    id="mob-AUD"> AUD </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('KZT')"
+                                                    id="mob-KZT"> KZT </button></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-6 text-center">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
-                                    id="currencySelection" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="font-size-16">RSD</span>
-                                    <span class="material-icons font-size-24 inline-icon text-bold">expand_more</span>
-                                </button>
-                                <ul class="dropdown-menu selection-dropdown" aria-labelledby="currencySelection">
-                                    <li><a class="dropdown-item" href="#">EUR</a></li>
-                                    <li><a class="dropdown-item" href="#">USD</a></li>
-                                </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-12 p-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <span id="rating">
+                                <span class="material-icons text-light fs-6">star_outline</span>
+                                <span class="material-icons text-warning fs-6">star_rate</span>
+                                <span class="material-icons text-warning fs-6">star_rate</span>
+                                <span class="material-icons text-warning fs-6">star_rate</span>
+                                <span class="material-icons text-warning fs-6">star_rate</span>
+                            </span>
+
+                            <a href="#" class="link-light ms-1 fs-6">1 Review</a>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <p class="text-secondary font-size-13 mt-2 description" id="description"></p>
+                        </div>
+                        <div class="col-lg-4 text-center d-none d-lg-block h-100 p-2">
+                            <button class="btn btn-light contact-us-btn" data-bs-toggle="modal"
+                                data-bs-target="#contactModal">CONTACT US</button>
+                        </div>
+                        <div class="col-lg-4 col-md-6 d-none d-md-block d-lg-block p-2">
+                            <div class="row">
+                                <div class="col-6 text-end">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                            id="selectedLang" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                        <ul class="dropdown-menu selection-dropdown" aria-labelledby="selectedLang"
+                                            id="langSelection"></ul>
+                                    </div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-light dropdown-toggle p-1" type="button"
+                                            id="currencySelection" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class="fonst-size-12">RSD</span>
+                                            <span class="material-icons fs-4 inline-icon text-bold">expand_more</span>
+                                        </button>
+                                        <ul class="dropdown-menu selection-dropdown"
+                                            aria-labelledby="currencySelection">
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('EUR')"
+                                                    id="EUR"> EUR
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('RSD')"
+                                                    id="RSD"> RSD
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('USD')"
+                                                    id="USD"> USD
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('RON')"
+                                                    id="RON"> RON
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('SGD')"
+                                                    id="SGD"> SGD
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('PHP')"
+                                                    id="PHP"> PHP
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('CAD')"
+                                                    id="CAD"> CAD
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('GBP')"
+                                                    id="GBP"> GBP
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('MYR')"
+                                                    id="MYR"> MYR
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('THB')"
+                                                    id="THB"> THB
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('PLN')"
+                                                    id="PLN"> PLN
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('AOA')"
+                                                    id="AOA"> AOA
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('DZD')"
+                                                    id="DZD"> DZD
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('AUD')"
+                                                    id="AUD"> AUD
+                                                </button></li>
+                                            <li><button class="dropdown-item" onclick="onCurrencySelection('KZT')"
+                                                    id="KZT"> KZT
+                                                </button></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    </nav>
+    </header>
     <!-- Navbar end -->
 
     <!-- Main content start -->
-    <section class="container-fluid p-4 mt-4">
+    <section class="container-fluid p-4">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-lg-9 col-12">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-lg-4 d-lg-block d-none">
                         <div class="card border-radius-16">
-                            <img class="card-img-top" style="border-radius: 16px 16px 0 0;" src="assets/imgs/room.jpeg" />
+                            <img class="card-img-top" style="border-radius: 16px 16px 0 0;"
+                                src="assets/imgs/room.jpeg" />
                             <div class="card-body">
                                 <div>
                                     <b>Parking</b>
@@ -118,17 +218,17 @@
                                 <div class="row mt-2">
                                     <div class="col-md-6">
                                         <div class="d-grid gap-3 d-md-block">
-                                            <button
-                                                class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1"
-                                                type="button" style="font-size: 0.9rem;">
-                                                <span class="material-icons m-1" style="font-size: 0.9rem;">remove</span>
+                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1" type="button"
+                                                style="font-size: 0.9rem;">
+                                                <span class="material-icons m-1"
+                                                    style="font-size: 0.9rem;">remove</span>
                                             </button>
-                                            <button class="btn btn-sm bg-white text-dark" type="button" style="font-size: 0.9rem;">
+                                            <button class="btn btn-sm bg-white text-dark" type="button"
+                                                style="font-size: 0.9rem;">
                                                 2
                                             </button>
-                                            <button
-                                                class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1"
-                                                type="button" style="font-size: 0.9rem;">
+                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1" type="button"
+                                                style="font-size: 0.9rem;">
                                                 <span class="material-icons m-1" style="font-size: 0.9rem;">add</span>
                                             </button>
                                         </div>
@@ -140,9 +240,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-lg-4 d-lg-block d-none">
                         <div class="card border-radius-16">
-                            <img class="card-img-top" style="border-radius: 16px 16px 0 0;" src="assets/imgs/room.jpeg" />
+                            <img class="card-img-top" style="border-radius: 16px 16px 0 0;"
+                                src="assets/imgs/room.jpeg" />
                             <div class="card-body">
                                 <div>
                                     <b>Parking</b>
@@ -156,17 +257,17 @@
                                 <div class="row mt-2">
                                     <div class="col-md-6">
                                         <div class="d-grid gap-3 d-md-block">
-                                            <button
-                                                class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1"
-                                                type="button" style="font-size: 0.9rem;">
-                                                <span class="material-icons m-1" style="font-size: 0.9rem;">remove</span>
+                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1" type="button"
+                                                style="font-size: 0.9rem;">
+                                                <span class="material-icons m-1"
+                                                    style="font-size: 0.9rem;">remove</span>
                                             </button>
-                                            <button class="btn btn-sm bg-white text-dark" type="button" style="font-size: 0.9rem;">
+                                            <button class="btn btn-sm bg-white text-dark" type="button"
+                                                style="font-size: 0.9rem;">
                                                 2
                                             </button>
-                                            <button
-                                                class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1"
-                                                type="button" style="font-size: 0.9rem;">
+                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1" type="button"
+                                                style="font-size: 0.9rem;">
                                                 <span class="material-icons m-1" style="font-size: 0.9rem;">add</span>
                                             </button>
                                         </div>
@@ -178,50 +279,98 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card border-radius-16">
-                            <img class="card-img-top" style="border-radius: 16px 16px 0 0;" src="assets/imgs/room.jpeg" />
+
+                    <div class="col-md-6 col-12 d-lg-none d-block ps-sm-5 pe-sm-5 pt-3 pb-3 ps-md-3 pe-md-3">
+                        <div class="card border-radius-16 shadow-lg">
+                            <img class="m-3 border-radius-8" src="assets/imgs/room.jpeg" />
                             <div class="card-body">
-                                <div>
+                                <div class="font-size-16">
                                     <b>Parking</b>
-                                    <span class="float-end text-occur-yellow">(x1 included in the room)</span>
+                                    <span class="text-occur-yellow">(x1 included in the room)</span>
                                 </div>
-                                <p class="font-size-12 mt-2">
+                                <p class="font-size-14 mt-2" style="font-weight: 600;">
                                     is Parking needed for you?<br>
                                     Service is on time for you all the time.
                                 </p>
                                 <div class="text-center"><b>0 RSD</b></div>
                                 <div class="row mt-2">
-                                    <div class="col-md-6">
-                                        <div class="d-grid gap-3 d-md-block">
-                                            <button
-                                                class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1"
-                                                type="button" style="font-size: 0.9rem;">
-                                                <span class="material-icons m-1" style="font-size: 0.9rem;">remove</span>
-                                            </button>
-                                            <button class="btn btn-sm bg-white text-dark" type="button" style="font-size: 0.9rem;">
-                                                2
-                                            </button>
-                                            <button
-                                                class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1"
-                                                type="button" style="font-size: 0.9rem;">
-                                                <span class="material-icons m-1" style="font-size: 0.9rem;">add</span>
-                                            </button>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 p-0 text-end">
+                                                <button class="btn btn-outline-dark btn-sm font-size-12 p-0 ps-1 pe-1"
+                                                    type="button">
+                                                    <span class="material-icons m-1">remove</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-2 p-0 text-center">
+                                                <button class="btn btn-sm bg-white text-dark" type="button">
+                                                    <span class="font-size-14">2</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <button class="btn btn-outline-dark btn-sm font-size-12 p-0 ps-1 pe-1"
+                                                    type="button">
+                                                    <span class="material-icons m-1">add</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 text-end">
-                                        <button class="btn bg-occur-yellow text-white p-0 ps-4 pe-4">Add</button>
+                                    <div class="col-6 text-end text-center">
+                                        <button class="btn bg-occur-yellow w-75 text-white p-1 ps-4 pe-4">Add</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 text-end mt-3">
-                        <button class="btn btn-dark pt-1 pb-1 ps-5 pe-5">Continue</button>
+                    <div class="col-md-6 col-12 d-lg-none d-block ps-sm-5 pe-sm-5 pt-3 pb-3 ps-md-3 pe-md-3">
+                        <div class="card border-radius-16 shadow-lg">
+                            <img class="m-3 border-radius-8" src="assets/imgs/room.jpeg" />
+                            <div class="card-body">
+                                <div class="font-size-16">
+                                    <b>Parking</b>
+                                    <span class="text-occur-yellow">(x1 included in the room)</span>
+                                </div>
+                                <p class="font-size-14 mt-2" style="font-weight: 600;">
+                                    is Parking needed for you?<br>
+                                    Service is on time for you all the time.
+                                </p>
+                                <div class="text-center"><b>0 RSD</b></div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-5 p-0 text-end">
+                                                <button class="btn btn-outline-dark btn-sm font-size-12 p-0 ps-1 pe-1"
+                                                    type="button">
+                                                    <span class="material-icons m-1">remove</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-2 p-0 text-center">
+                                                <button class="btn btn-sm bg-white text-dark" type="button">
+                                                    <span class="font-size-14">2</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <button class="btn btn-outline-dark btn-sm font-size-12 p-0 ps-1 pe-1"
+                                                    type="button">
+                                                    <span class="material-icons m-1">add</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 text-end text-center">
+                                        <button class="btn bg-occur-yellow w-75 text-white p-1 ps-4 pe-4">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-end mt-3 mb-3">
+                        <button class="btn btn-dark pt-2 pb-2 ps-5 pe-5">Continue</button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-lg-3 col-12">
                 <div class="border-radius-10 bg-dark text-light p-3 ps-5 pe-5 mb-3">
                     <div class="row">
                         <div class="col-1"></div>
@@ -229,15 +378,18 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="font-size-10 m-0">Check-In</p>
-                                    <span class="font-size-12">11 November 2021<span class="ms-5 material-icons inline-icon">edit_note</span></span>
+                                    <span class="font-size-12">11 November 2021<span
+                                            class="ms-5 material-icons inline-icon">edit_note</span></span>
                                 </div>
                                 <div class="col-md-12 mt-2">
                                     <p class="font-size-10 m-0">Check-Out</p>
-                                    <span class="font-size-12">16 November 2021<span class="ms-5 material-icons inline-icon">edit_note</span></span>
+                                    <span class="font-size-12">16 November 2021<span
+                                            class="ms-5 material-icons inline-icon">edit_note</span></span>
                                 </div>
                                 <div class="col-md-12 mt-2">
                                     <p class="font-size-10 m-0">2 Bed appartment with sea-view</p>
-                                    <span class="font-size-12">1x <span class="ms-4">3256 RSD</span><span class="ms-4 material-icons inline-icon">info</span></span>
+                                    <span class="font-size-12">1x <span class="ms-4">3256 RSD</span><span
+                                            class="ms-4 material-icons inline-icon">info</span></span>
                                 </div>
                                 <div class="col-md-12 mt-2">
                                     <b class="font-size-12 me-3">Total</b> <span class="font-size-12">3256 RSD</span>
@@ -250,61 +402,164 @@
                         <div class="col-1"></div>
                     </div>
                 </div>
-                <div class="border-radius-10 bg-dark text-light p-3 ps-5 pe-5">
+                <div class="border-radius-10 bg-dark text-light p-4 d-lg-block d-none">
                     <div class="row">
-                        <div class="col-3 mb-2">
-                            <span class="material-icons font-size-18">phone_enabled</span>
+                        <div class="col-1 p-0"></div>
+                        <div class="col-10 p-0">
+                            <div class="row" id="desktop-phone-section" class="pointer">
+                                <div class="col-3 mb-2">
+                                    <span class="pointer material-icons fs-5">phone_enabled</span>
+                                </div>
+                                <div class="col-9 mb-2">
+                                    <span class="pointer font-size-12" id="desktop-phone"></span>
+                                </div>
+                            </div>
+                            <div class="row" id="desktop-location-section" class="pointer">
+                                <div class="col-3 mb-2">
+                                    <span class="pointer material-icons fs-5">room</span>
+                                </div>
+                                <div class="col-9 mb-2">
+                                    <span class="pointer font-size-12" id="desktop-location"></span>
+                                </div>
+                            </div>
+                            <div class="row" id="desktop-mail-section" class="pointer">
+                                <div class="col-3 mb-2">
+                                    <span class="pointer material-icons fs-5">mail</span>
+                                </div>
+                                <div class="col-9 mb-2">
+                                    <span class="pointer font-size-12" id="desktop-mail"></span>
+                                </div>
+                            </div>
+                            <div class="row" id="desktop-site-section" class="pointer">
+                                <div class="col-3 mb-2">
+                                    <span class="pointer material-icons fs-5">language</span>
+                                </div>
+                                <div class="col-9 mb-2">
+                                    <span class="pointer font-size-12" id="desktop-site"></span>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-3"></div>
+                                <div class="col-6 text-center">
+                                    <img class="image-fluid me-2" src="./assets/imgs/social/instagram.png" width="25" />
+                                    <img class="image-fluid ms-2" src="./assets/imgs/social/facebook.png" width="35" />
+                                </div>
+                                <div class="col-3"></div>
+                                <div class="col-12 text-center pt-3">
+                                    <button class="btn btn-light contact-us-btn" data-bs-toggle="modal"
+                                        data-bs-target="#contactModal">CONTACT
+                                        US</button>
+                                </div>
+                                <div class="col-12 text-center pt-3">
+                                    <span class="font-size-16">Privacy policy | About cookies policy</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-9 mb-2">
-                            <span class="font-size-12">9876543210</span>
+                        <div class="col-1 p-0"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-radius-10 bg-dark text-light p-4">
+                <div class="row">
+                    <div class="col-1 p-0"></div>
+                    <div class="col-10 p-0">
+                        <div class="row" id="desktop-phone-section" class="pointer">
+                            <div class="col-3 mb-2">
+                                <span class="pointer material-icons fs-5">phone_enabled</span>
+                            </div>
+                            <div class="col-9 mb-2">
+                                <span class="pointer font-size-12" id="desktop-phone"></span>
+                            </div>
                         </div>
-                        <div class="col-3 mb-2">
-                            <span class="material-icons font-size-18">room</span>
+                        <div class="row" id="desktop-location-section" class="pointer">
+                            <div class="col-3 mb-2">
+                                <span class="pointer material-icons fs-5">room</span>
+                            </div>
+                            <div class="col-9 mb-2">
+                                <span class="pointer font-size-12" id="desktop-location"></span>
+                            </div>
                         </div>
-                        <div class="col-9 mb-2">
-                            <span class="font-size-12">Dobrota 80</span>
+                        <div class="row" id="desktop-mail-section" class="pointer">
+                            <div class="col-3 mb-2">
+                                <span class="pointer material-icons fs-5">mail</span>
+                            </div>
+                            <div class="col-9 mb-2">
+                                <span class="pointer font-size-12" id="desktop-mail"></span>
+                            </div>
                         </div>
-                        <div class="col-3 mb-2">
-                            <span class="material-icons font-size-18">mail</span>
+                        <div class="row" id="desktop-site-section" class="pointer">
+                            <div class="col-3 mb-2">
+                                <span class="pointer material-icons fs-5">language</span>
+                            </div>
+                            <div class="col-9 mb-2">
+                                <span class="pointer font-size-12" id="desktop-site"></span>
+                            </div>
                         </div>
-                        <div class="col-9 mb-2">
-                            <span class="font-size-12">avram.pedja@gmail.com</span>
-                        </div>
-                        <div class="col-3 mb-2">
-                            <span class="material-icons font-size-18">language</span>
-                        </div>
-                        <div class="col-9 mb-2">
-                            <span class="font-size-12">www.larcohotel.com</span>
+                        <div class="row mt-3">
+                            <div class="col-3"></div>
+                            <div class="col-6 text-center">
+                                <img class="image-fluid me-2" src="./assets/imgs/social/instagram.png" width="25" />
+                                <img class="image-fluid ms-2" src="./assets/imgs/social/facebook.png" width="35" />
+                            </div>
+                            <div class="col-3"></div>
+                            <div class="col-12 text-center pt-3">
+                                <button class="btn btn-light contact-us-btn" data-bs-toggle="modal"
+                                    data-bs-target="#contactModal">CONTACT
+                                    US</button>
+                            </div>
+                            <div class="col-12 text-center pt-3">
+                                <span class="font-size-16">Privacy policy | About cookies policy</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-3"></div>
-                        <div class="col-3 text-center">
-                            <img class="image-fluid mt-1" src="./assets/imgs/social/instagram.png" width="30" />
-                        </div>
-                        <div class="col-3 text-center">
-                            <img class="image-fluid" src="./assets/imgs/social/facebook.png" width="40" />
-                        </div>
-                        <div class="col-3"></div>
-                        <div class="col-12 text-center pt-3">
-                            <button class="btn btn-light font-size-12 ps-4 pe-4">CONTACT
-                                US</button>
-                        </div>
-                        <div class="col-12 text-center pt-3">
-                            <span class="font-size-12">Privacy policy | About cookies policy</span>
-                        </div>
-                    </div>
+                    <div class="col-1 p-0"></div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Main content end -->
 
+    <div class="position-fixed toast shadow p-3" id="toast" style="z-index: 1111; top: 40%; left: 40%; display: none;">
+        <div class="d-flex">
+            <div class="toast-body" id="toast-msg">
+            </div>
+            <button type="button" class="btn-close btn-close-secondary me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loader-modal" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <strong class="fs-3" id="loader-msg"></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+
+<!-- plugin scripts start -->
+<script type="text/javascript" src="./assets/js/plugin/jquery.min.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/plugin/popper.min.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/plugin/bootstrap.bundle.min.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/plugin/moment.min.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/plugin/daterangepicker.min.js?v=1"></script>
+<!-- plugin scripts end -->
+
+<!-- site scripts end -->
+<script type="text/javascript" src="./assets/js/call.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/header.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/contact.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/loader.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/toaster.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/booking.js?v=1"></script>
+<!-- site scripts end -->
 
 </html>
