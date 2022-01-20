@@ -199,6 +199,97 @@
     <!-- Main content start -->
     <section class="container-fluid p-4">
         <div class="row">
+            <div class="col-12 d-block d-lg-none p-2 ps-sm-4 pe-sm-4 ps-md-5 pe-md-5">
+                <button class="btn btn-dark w-100" onclick="$('#summary').toggle(400)">Summary</button>
+                <div class="border-radius-10 bg-dark text-light p-3 ps-5 pe-5 mb-2 mt-3" style="display: none;" id="summary">
+                    <div class="ps-4 pe-3 ps-lg-0 pe-lg-0">
+                        <div class="d-block d-md-none d-sm-block d-lg-block">
+                            <p class="font-size-12 m-0">Check-In</p>
+                            <p class="font-size-14">
+                                <span id="desktop-check-in">11 November 2021</span>
+                                <span class="ms-2 material-icons inline-icon">edit_note</span>
+                            </p>
+                        </div>
+                        <div class="d-none d-lg-none d-md-block">
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="font-size-12 m-0">Check-In</p>
+                                </div>
+                                <div class="col-6">
+                                    <span id="tablet-check-in">11 November 2021</span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="ms-2 material-icons inline-icon">edit_note</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block d-lg-block d-md-none d-sm-block">
+                            <p class="font-size-12 m-0">Check-Out</p>
+                            <p class="font-size-14">
+                                <span id="desktop-check-out">11 November 2021</span>
+                                <span class="ms-2 material-icons inline-icon">edit_note</span>
+                            </p>
+                        </div>
+                        <div class="d-none d-lg-none d-md-block mt-2 mb-2">
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="font-size-12 m-0">Check-Out</p>
+                                </div>
+                                <div class="col-6">
+                                    <span id="tablet-check-out">11 November 2021</span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="ms-2 material-icons inline-icon">edit_note</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block d-lg-block d-md-none d-sm-block">
+                            <p class="font-size-12 m-0" id="desktop-room-name">2 Bed appartment with sea-view
+                            </p>
+                            <div class="row font-size-14">
+                                <div class="col-3">
+                                    <span id="desktop-room-unit">1x</span>
+                                </div>
+                                <div class="col-9">
+                                    <span id="desktop-room-cost">3256 RSD</span>
+                                    <span class="material-icons inline-icon ms-4">info</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-none d-lg-none d-md-block">
+                            <div class="row font-size-14">
+                                <div class="col-12">
+                                    <p class="font-size-12 mb-1" id="desktop-room-name">2 Bed apartment with
+                                        sea-view
+                                    </p>
+                                </div>
+                                <div class="col-3">
+                                    <span id="desktop-room-unit">1x</span>
+                                </div>
+                                <div class="col-6">
+                                    <span id="desktop-room-cost">3256 RSD</span>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <span class="material-icons inline-icon">info</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 mb-2">
+                            <div class="row">
+                                <div class="col-3">
+                                    <span class="font-size-14">Total</span>
+                                </div>
+                                <div class="col-9">
+                                    <span class="font-size-14" id="desktop-room-total">3256 RSD</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3 text-center">
+                            <button class="btn btn-light w-75 font-size-14">Make Reservation</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-9 col-12">
                 <div class="row">
                     <div class="col-lg-4 d-lg-block d-none">
@@ -370,36 +461,92 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-12">
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                 <div class="border-radius-10 bg-dark text-light p-3 ps-5 pe-5 mb-3">
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-10">
+                    <div class="ps-4 pe-3 ps-lg-0 pe-lg-0">
+                        <div class="d-block d-md-none d-sm-block d-lg-block">
+                            <p class="font-size-12 m-0">Check-In</p>
+                            <p class="font-size-14">
+                                <span id="desktop-check-in">11 November 2021</span>
+                                <span class="ms-2 material-icons inline-icon">edit_note</span>
+                            </p>
+                        </div>
+                        <div class="d-none d-lg-none d-md-block">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <p class="font-size-10 m-0">Check-In</p>
-                                    <span class="font-size-12">11 November 2021<span
-                                            class="ms-5 material-icons inline-icon">edit_note</span></span>
+                                <div class="col-3">
+                                    <p class="font-size-12 m-0">Check-In</p>
                                 </div>
-                                <div class="col-md-12 mt-2">
-                                    <p class="font-size-10 m-0">Check-Out</p>
-                                    <span class="font-size-12">16 November 2021<span
-                                            class="ms-5 material-icons inline-icon">edit_note</span></span>
+                                <div class="col-6">
+                                    <span id="tablet-check-in">11 November 2021</span>
                                 </div>
-                                <div class="col-md-12 mt-2">
-                                    <p class="font-size-10 m-0">2 Bed appartment with sea-view</p>
-                                    <span class="font-size-12">1x <span class="ms-4">3256 RSD</span><span
-                                            class="ms-4 material-icons inline-icon">info</span></span>
-                                </div>
-                                <div class="col-md-12 mt-2">
-                                    <b class="font-size-12 me-3">Total</b> <span class="font-size-12">3256 RSD</span>
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <button class="btn btn-light font-size-12">Make Reservation</button>
+                                <div class="col-3">
+                                    <span class="ms-2 material-icons inline-icon">edit_note</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-1"></div>
+                        <div class="d-block d-lg-block d-md-none d-sm-block">
+                            <p class="font-size-12 m-0">Check-Out</p>
+                            <p class="font-size-14">
+                                <span id="desktop-check-out">11 November 2021</span>
+                                <span class="ms-2 material-icons inline-icon">edit_note</span>
+                            </p>
+                        </div>
+                        <div class="d-none d-lg-none d-md-block mt-2 mb-2">
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="font-size-12 m-0">Check-Out</p>
+                                </div>
+                                <div class="col-6">
+                                    <span id="tablet-check-out">11 November 2021</span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="ms-2 material-icons inline-icon">edit_note</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block d-lg-block d-md-none d-sm-block">
+                            <p class="font-size-12 m-0" id="desktop-room-name">2 Bed appartment with sea-view
+                            </p>
+                            <div class="row font-size-14">
+                                <div class="col-3">
+                                    <span id="desktop-room-unit">1x</span>
+                                </div>
+                                <div class="col-9">
+                                    <span id="desktop-room-cost">3256 RSD</span>
+                                    <span class="material-icons inline-icon ms-4">info</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-none d-lg-none d-md-block">
+                            <div class="row font-size-14">
+                                <div class="col-12">
+                                    <p class="font-size-12 mb-1" id="desktop-room-name">2 Bed apartment with sea-view
+                                    </p>
+                                </div>
+                                <div class="col-3">
+                                    <span id="desktop-room-unit">1x</span>
+                                </div>
+                                <div class="col-6">
+                                    <span id="desktop-room-cost">3256 RSD</span>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <span class="material-icons inline-icon">info</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 mb-2">
+                            <div class="row">
+                                <div class="col-3">
+                                    <span class="font-size-14">Total</span>
+                                </div>
+                                <div class="col-9">
+                                    <span class="font-size-14" id="desktop-room-total">3256 RSD</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3 text-center">
+                            <button class="btn btn-light w-75 font-size-14">Make Reservation</button>
+                        </div>
                     </div>
                 </div>
                 <div class="border-radius-10 bg-dark text-light p-4 d-lg-block d-none">
@@ -451,7 +598,7 @@
                                         US</button>
                                 </div>
                                 <div class="col-12 text-center pt-3">
-                                    <span class="font-size-16">Privacy policy | About cookies policy</span>
+                                    <span class="font-size-15">Privacy policy | About cookies policy</span>
                                 </div>
                             </div>
                         </div>
@@ -459,66 +606,89 @@
                     </div>
                 </div>
             </div>
-
-            <div class="border-radius-10 bg-dark text-light p-4">
-                <div class="row">
-                    <div class="col-1 p-0"></div>
-                    <div class="col-10 p-0">
-                        <div class="row" id="desktop-phone-section" class="pointer">
-                            <div class="col-3 mb-2">
-                                <span class="pointer material-icons fs-5">phone_enabled</span>
-                            </div>
-                            <div class="col-9 mb-2">
-                                <span class="pointer font-size-12" id="desktop-phone"></span>
-                            </div>
+        </div>
+    </section>
+    <section class="d-block d-lg-none d-md-block d-sm-block mb-4">
+        <div class="bg-dark text-light p-4">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <div class="row" id="mobile-phone-section">
+                        <div class="col-2"></div>
+                        <div class="col-3 mb-2">
+                            <span class="material-icons fs-6 pointer">phone_enabled</span>
                         </div>
-                        <div class="row" id="desktop-location-section" class="pointer">
-                            <div class="col-3 mb-2">
-                                <span class="pointer material-icons fs-5">room</span>
-                            </div>
-                            <div class="col-9 mb-2">
-                                <span class="pointer font-size-12" id="desktop-location"></span>
-                            </div>
+                        <div class="col-5 mb-2">
+                            <span class="font-size-12 pointer" id="mobile-phone"></span>
                         </div>
-                        <div class="row" id="desktop-mail-section" class="pointer">
-                            <div class="col-3 mb-2">
-                                <span class="pointer material-icons fs-5">mail</span>
-                            </div>
-                            <div class="col-9 mb-2">
-                                <span class="pointer font-size-12" id="desktop-mail"></span>
-                            </div>
+                        <div class="col-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-3 mb-2">
+                            <span class="material-icons fs-6 pointer">room</span>
                         </div>
-                        <div class="row" id="desktop-site-section" class="pointer">
-                            <div class="col-3 mb-2">
-                                <span class="pointer material-icons fs-5">language</span>
-                            </div>
-                            <div class="col-9 mb-2">
-                                <span class="pointer font-size-12" id="desktop-site"></span>
-                            </div>
+                        <div class="col-5 mb-2">
+                            <span class="font-size-12 pointer" id="mobile-location"></span>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-3"></div>
-                            <div class="col-6 text-center">
-                                <img class="image-fluid me-2" src="./assets/imgs/social/instagram.png" width="25" />
-                                <img class="image-fluid ms-2" src="./assets/imgs/social/facebook.png" width="35" />
-                            </div>
-                            <div class="col-3"></div>
-                            <div class="col-12 text-center pt-3">
-                                <button class="btn btn-light contact-us-btn" data-bs-toggle="modal"
-                                    data-bs-target="#contactModal">CONTACT
-                                    US</button>
-                            </div>
-                            <div class="col-12 text-center pt-3">
-                                <span class="font-size-16">Privacy policy | About cookies policy</span>
-                            </div>
+                        <div class="col-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-3 mb-2">
+                            <span class="material-icons fs-6 pointer">mail</span>
+                        </div>
+                        <div class="col-5 mb-2">
+                            <span class="font-size-12 pointer" id="mobile-mail"></span>
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-3 mb-2">
+                            <span class="material-icons fs-6 pointer">language</span>
+                        </div>
+                        <div class="col-5 mb-2">
+                            <span class="font-size-12 pointer" id="mobile-site"></span>
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3"></div>
+                        <div class="col-6 text-center">
+                            <img class="image-fluid me-2" src="./assets/imgs/social/instagram.png" width="30" />
+                            <img class="image-fluid ms-2" src="./assets/imgs/social/facebook.png" width="40" />
+                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-12 text-center pt-3">
+                            <button class="btn btn-light contact-us-btn" data-bs-toggle="modal"
+                                data-bs-target="#contactModal">CONTACT
+                                US</button>
+                        </div>
+                        <div class="col-12 text-center pt-3">
+                            <span class="font-size-16">Privacy policy | About cookies policy</span>
                         </div>
                     </div>
-                    <div class="col-1 p-0"></div>
                 </div>
+                <div class="col-3"></div>
             </div>
         </div>
     </section>
     <!-- Main content end -->
+
+    <!-- Footer start -->
+    <footer class="bg-dark p-2">
+        <div class="float-start pt-2">
+            <p class="fs-6 text-white m-0">Powered By <a href="https://otasync.me/" target="_blank">OTASync.me</a></p>
+        </div>
+        <div class="text-end">
+            <button class="btn btn-dark btn-sm fs-6" onclick="window.location.reload()">Terms and
+                Conditions</button>
+            <button class="btn btn-dark btn-sm fs-6" onclick="window.location.reload()">Cancellation
+                Policy</button>
+        </div>
+    </footer>
+    <!-- Footer end -->
 
     <div class="position-fixed toast shadow p-3" id="toast" style="z-index: 1111; top: 40%; left: 40%; display: none;">
         <div class="d-flex">
@@ -544,6 +714,69 @@
         </div>
     </div>
 </body>
+
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactForm" aria-hidden="true">
+    <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl modal-fullscreen-sm-down modal-fullscreen-md-down">
+        <div class="modal-content border-radius-16">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="contactForm">Contact US</h5>
+                <button type="button" class="btn bg-dark p-0 text-white" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="resetContactUs()">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;"
+                                    id="checkin" readonly />
+                                <label for="checkin" class="form-label">Check In</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;"
+                                    id="checkout" readonly />
+                                <label for="checkout" class="form-label">Check Out</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control p-2" style="border-radius: 10px; height: 2.5rem;"
+                                    id="fullname" />
+                                <label for="fullname" class="form-label">First and Last Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="email" class="form-control p-2"
+                                    style="border-radius: 10px; height: 2.5rem;" id="email" />
+                                <label for="email" class="form-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mt-4">
+                        <textarea class="form-control p-2" style="border-radius: 10px; height: 6rem;"
+                            id="note"></textarea>
+                        <label for="note" class="form-label">Additional Notes</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    onclick="resetContactUs()">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveContactUsInfo()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- plugin scripts start -->
 <script type="text/javascript" src="./assets/js/plugin/jquery.min.js?v=1"></script>

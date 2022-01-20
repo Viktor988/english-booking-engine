@@ -50,7 +50,7 @@ const setDesktopRoomCard = (rooms) => {
                 imageItem += `
                 <div class="carousel-item h-100 ` + active + `">
                     <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius"
-                        alt="room" />
+                        alt="room" onclick="viewImage(this)" />
                 </div>
                 `;
     
@@ -603,7 +603,7 @@ const viewRoomDetail = (ind) => {
         images += `
             <div class="carousel-item ${active}">
                 <img src="${img.url}" class="d-block w-100 border-radius-10"
-                    alt="room" />
+                    alt="room" onclick="viewImage(this)" />
             </div>
         `;
         imgInd++;
@@ -619,7 +619,7 @@ const viewRoomDetail = (ind) => {
     `;
     room.room_details.amenities.forEach(am => {
         amenities += `
-            <div class="col-md-4 p-2 text-dark-grey">
+            <div class="col-4 p-2 text-dark-grey">
             <span class="modal-amenity-icon me-2" data-bs-toggle="tooltip">${all_amenities[am.name].image}</span>
                 <span class="font-size-12">${all_amenities[am.name].name}</span>
             </div>
