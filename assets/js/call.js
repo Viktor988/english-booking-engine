@@ -54,7 +54,6 @@ const getRooms = (guests, currency, date_arrival, date_departure) => {
         dto: date_departure
     };
 
-    doPost('engine/data/getPolicy', data)
     return doPost('engine/data/getRooms', data);
 }
 
@@ -122,12 +121,12 @@ const getRoomsByDates = (guests, currency, dfrom, dto) => {
     return doPost('engine/data/getRoomsByDates', data);
 }
 
-const getPolicy = (id_pricing_plans) => {
+const getPolicy = (id_pricing_plan) => {
     const params = new URLSearchParams(location.search);
     const data = {
         id_properties: params.get('id_properties'),
         id_language: params.get('language'),
-        id_pricing_plans
+        id_pricing_plan
     };
     return doPost('engine/data/policy', data);
 }
@@ -168,12 +167,12 @@ const getLanguage = () => {
 /** Language api call - end */
 
 /** Extra api call - start */
-const getExtras = (currency) => {
+const getExtras = (currency_to) => {
     const params = new URLSearchParams(location.search);
     const data = {
         id_properties: params.get('id_properties'),
         id_language: params.get('language'),
-        currency
+        currency_to
     };
     return doPost('engine/data/extras', data);
 }

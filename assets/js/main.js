@@ -59,6 +59,8 @@ const initDatePicker = () => {
         dfrom = start.format('YYYY-MM-DD');
         dto = end.format('YYYY-MM-DD')
         setDate(start.format('DD MMMM'), end.format('DD MMMM'));
+        console.log(dfrom, dto)
+        window.location.reload();
     });
 
     $('#checkin').daterangepicker({
@@ -105,7 +107,6 @@ const setDate = (labelFrom, labelEnd) => {
         window.history.pushState({
             path: newUrl
         }, '', newUrl);
-
     }
 }
 
@@ -185,4 +186,15 @@ const setGuestFilter = () => {
         document.getElementById('addGuestDropDown').classList.remove('bg-bright-yellow-tint');
         document.getElementById('addGuestDropDown').classList.add('bg-white');
     }
+}
+
+const bookRoom = (ind) => {
+    const room = JSON.parse(JSON.stringify(roomList[ind]));
+    const pInd = room.pricing_plans.findIndex(x => x.active === true);
+    if (pInd > -1) {
+        room.selectedPrice = room.pricing_plans[pInd];
+    }
+    console.log(room)
+    sessionStorage.setItem('selectedRoom', JSON.stringify(room));
+    window.location.href = 'booking.html' + window.location.search;
 }

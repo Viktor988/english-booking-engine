@@ -1,6 +1,7 @@
 const setHeader = async () => {
     const resp = await getSettings();
     settings = resp.settings;
+    sessionStorage.setItem('settings', JSON.stringify(settings));
 
     const params = new URLSearchParams(location.search);
     if (params.get('currency')) {

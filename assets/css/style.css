@@ -375,3 +375,8 @@ body {
     width: 100%;
   }
 }
+
+.word-break {
+  word-break: break-all;
+  white-space: normal;
+}

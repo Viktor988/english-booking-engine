@@ -100,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-8 col-sm-12 p-2">
+                <div class="col-lg-9 col-md-8 col-sm-12">
                     <div class="row">
                         <div class="col-12">
                             <span id="rating">
@@ -203,32 +203,18 @@
                 <button class="btn btn-dark w-100" onclick="$('#summary').toggle(400)">Summary</button>
                 <div class="border-radius-10 bg-dark text-light p-3 ps-5 pe-5 mb-2 mt-3" style="display: none;" id="summary">
                     <div class="ps-4 pe-3 ps-lg-0 pe-lg-0">
-                        <div class="d-block d-md-none d-sm-block d-lg-block">
-                            <p class="font-size-12 m-0">Check-In</p>
-                            <p class="font-size-14">
-                                <span id="desktop-check-in">11 November 2021</span>
-                                <span class="ms-2 material-icons inline-icon">edit_note</span>
-                            </p>
-                        </div>
                         <div class="d-none d-lg-none d-md-block">
                             <div class="row">
                                 <div class="col-3">
                                     <p class="font-size-12 m-0">Check-In</p>
                                 </div>
                                 <div class="col-6">
-                                    <span id="tablet-check-in">11 November 2021</span>
+                                    <span id="s-tablet-check-in">11 November 2021</span>
                                 </div>
                                 <div class="col-3">
                                     <span class="ms-2 material-icons inline-icon">edit_note</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-block d-lg-block d-md-none d-sm-block">
-                            <p class="font-size-12 m-0">Check-Out</p>
-                            <p class="font-size-14">
-                                <span id="desktop-check-out">11 November 2021</span>
-                                <span class="ms-2 material-icons inline-icon">edit_note</span>
-                            </p>
                         </div>
                         <div class="d-none d-lg-none d-md-block mt-2 mb-2">
                             <div class="row">
@@ -236,38 +222,25 @@
                                     <p class="font-size-12 m-0">Check-Out</p>
                                 </div>
                                 <div class="col-6">
-                                    <span id="tablet-check-out">11 November 2021</span>
+                                    <span id="s-tablet-check-out">11 November 2021</span>
                                 </div>
                                 <div class="col-3">
                                     <span class="ms-2 material-icons inline-icon">edit_note</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="d-block d-lg-block d-md-none d-sm-block">
-                            <p class="font-size-12 m-0" id="desktop-room-name">2 Bed appartment with sea-view
-                            </p>
-                            <div class="row font-size-14">
-                                <div class="col-3">
-                                    <span id="desktop-room-unit">1x</span>
-                                </div>
-                                <div class="col-9">
-                                    <span id="desktop-room-cost">3256 RSD</span>
-                                    <span class="material-icons inline-icon ms-4">info</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-none d-lg-none d-md-block">
+                        <div class="d-none d-lg-none d-md-block" id="s-services">
                             <div class="row font-size-14">
                                 <div class="col-12">
-                                    <p class="font-size-12 mb-1" id="desktop-room-name">2 Bed apartment with
+                                    <p class="font-size-12 mb-1" id="s-tablet-room-name">2 Bed apartment with
                                         sea-view
                                     </p>
                                 </div>
                                 <div class="col-3">
-                                    <span id="desktop-room-unit">1x</span>
+                                    <span id="s-tablet-room-unit">1x</span>
                                 </div>
                                 <div class="col-6">
-                                    <span id="desktop-room-cost">3256 RSD</span>
+                                    <span id="s-tablet-room-cost">3256 RSD</span>
                                 </div>
                                 <div class="col-3 text-end">
                                     <span class="material-icons inline-icon">info</span>
@@ -280,7 +253,7 @@
                                     <span class="font-size-14">Total</span>
                                 </div>
                                 <div class="col-9">
-                                    <span class="font-size-14" id="desktop-room-total">3256 RSD</span>
+                                    <span class="font-size-14" id="s-desktop-room-total">3256 RSD</span>
                                 </div>
                             </div>
                         </div>
@@ -291,174 +264,12 @@
                 </div>
             </div>
             <div class="col-lg-9 col-12">
-                <div class="row">
-                    <div class="col-lg-4 d-lg-block d-none">
-                        <div class="card border-radius-16">
-                            <img class="card-img-top" style="border-radius: 16px 16px 0 0;"
-                                src="assets/imgs/room.jpeg" />
-                            <div class="card-body">
-                                <div>
-                                    <b>Parking</b>
-                                    <span class="float-end text-occur-yellow">(x1 included in the room)</span>
-                                </div>
-                                <p class="font-size-12 mt-2">
-                                    is Parking needed for you?<br>
-                                    Service is on time for you all the time.
-                                </p>
-                                <div class="text-center"><b>0 RSD</b></div>
-                                <div class="row mt-2">
-                                    <div class="col-md-6">
-                                        <div class="d-grid gap-3 d-md-block">
-                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1" type="button"
-                                                style="font-size: 0.9rem;">
-                                                <span class="material-icons m-1"
-                                                    style="font-size: 0.9rem;">remove</span>
-                                            </button>
-                                            <button class="btn btn-sm bg-white text-dark" type="button"
-                                                style="font-size: 0.9rem;">
-                                                2
-                                            </button>
-                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1" type="button"
-                                                style="font-size: 0.9rem;">
-                                                <span class="material-icons m-1" style="font-size: 0.9rem;">add</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 text-end">
-                                        <button class="btn bg-occur-yellow text-white p-0 ps-4 pe-4">Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 d-lg-block d-none">
-                        <div class="card border-radius-16">
-                            <img class="card-img-top" style="border-radius: 16px 16px 0 0;"
-                                src="assets/imgs/room.jpeg" />
-                            <div class="card-body">
-                                <div>
-                                    <b>Parking</b>
-                                    <span class="float-end text-occur-yellow">(x1 included in the room)</span>
-                                </div>
-                                <p class="font-size-12 mt-2">
-                                    is Parking needed for you?<br>
-                                    Service is on time for you all the time.
-                                </p>
-                                <div class="text-center"><b>0 RSD</b></div>
-                                <div class="row mt-2">
-                                    <div class="col-md-6">
-                                        <div class="d-grid gap-3 d-md-block">
-                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1" type="button"
-                                                style="font-size: 0.9rem;">
-                                                <span class="material-icons m-1"
-                                                    style="font-size: 0.9rem;">remove</span>
-                                            </button>
-                                            <button class="btn btn-sm bg-white text-dark" type="button"
-                                                style="font-size: 0.9rem;">
-                                                2
-                                            </button>
-                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1" type="button"
-                                                style="font-size: 0.9rem;">
-                                                <span class="material-icons m-1" style="font-size: 0.9rem;">add</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 text-end">
-                                        <button class="btn bg-occur-yellow text-white p-0 ps-4 pe-4">Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" id="extras">
 
-                    <div class="col-md-6 col-12 d-lg-none d-block ps-sm-5 pe-sm-5 pt-3 pb-3 ps-md-3 pe-md-3">
-                        <div class="card border-radius-16 shadow-lg">
-                            <img class="m-3 border-radius-8" src="assets/imgs/room.jpeg" />
-                            <div class="card-body">
-                                <div class="font-size-16">
-                                    <b>Parking</b>
-                                    <span class="text-occur-yellow">(x1 included in the room)</span>
-                                </div>
-                                <p class="font-size-14 mt-2" style="font-weight: 600;">
-                                    is Parking needed for you?<br>
-                                    Service is on time for you all the time.
-                                </p>
-                                <div class="text-center"><b>0 RSD</b></div>
-                                <div class="row mt-2">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-5 p-0 text-end">
-                                                <button class="btn btn-outline-dark btn-sm font-size-12 p-0 ps-1 pe-1"
-                                                    type="button">
-                                                    <span class="material-icons m-1">remove</span>
-                                                </button>
-                                            </div>
-                                            <div class="col-2 p-0 text-center">
-                                                <button class="btn btn-sm bg-white text-dark" type="button">
-                                                    <span class="font-size-14">2</span>
-                                                </button>
-                                            </div>
-                                            <div class="col-5 p-0">
-                                                <button class="btn btn-outline-dark btn-sm font-size-12 p-0 ps-1 pe-1"
-                                                    type="button">
-                                                    <span class="material-icons m-1">add</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 text-end text-center">
-                                        <button class="btn bg-occur-yellow w-75 text-white p-1 ps-4 pe-4">Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12 d-lg-none d-block ps-sm-5 pe-sm-5 pt-3 pb-3 ps-md-3 pe-md-3">
-                        <div class="card border-radius-16 shadow-lg">
-                            <img class="m-3 border-radius-8" src="assets/imgs/room.jpeg" />
-                            <div class="card-body">
-                                <div class="font-size-16">
-                                    <b>Parking</b>
-                                    <span class="text-occur-yellow">(x1 included in the room)</span>
-                                </div>
-                                <p class="font-size-14 mt-2" style="font-weight: 600;">
-                                    is Parking needed for you?<br>
-                                    Service is on time for you all the time.
-                                </p>
-                                <div class="text-center"><b>0 RSD</b></div>
-                                <div class="row mt-2">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-5 p-0 text-end">
-                                                <button class="btn btn-outline-dark btn-sm font-size-12 p-0 ps-1 pe-1"
-                                                    type="button">
-                                                    <span class="material-icons m-1">remove</span>
-                                                </button>
-                                            </div>
-                                            <div class="col-2 p-0 text-center">
-                                                <button class="btn btn-sm bg-white text-dark" type="button">
-                                                    <span class="font-size-14">2</span>
-                                                </button>
-                                            </div>
-                                            <div class="col-5 p-0">
-                                                <button class="btn btn-outline-dark btn-sm font-size-12 p-0 ps-1 pe-1"
-                                                    type="button">
-                                                    <span class="material-icons m-1">add</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 text-end text-center">
-                                        <button class="btn bg-occur-yellow w-75 text-white p-1 ps-4 pe-4">Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 text-end mt-3 mb-3">
-                        <button class="btn btn-dark pt-2 pb-2 ps-5 pe-5">Continue</button>
-                    </div>
+                    
+                </div>
+                <div class="col-md-12 text-end mt-3 mb-3">
+                    <button class="btn btn-dark pt-2 pb-2 ps-5 pe-5">Continue</button>
                 </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -467,7 +278,7 @@
                         <div class="d-block d-md-none d-sm-block d-lg-block">
                             <p class="font-size-12 m-0">Check-In</p>
                             <p class="font-size-14">
-                                <span id="desktop-check-in">11 November 2021</span>
+                                <span id="desktop-check-in"></span>
                                 <span class="ms-2 material-icons inline-icon">edit_note</span>
                             </p>
                         </div>
@@ -477,7 +288,7 @@
                                     <p class="font-size-12 m-0">Check-In</p>
                                 </div>
                                 <div class="col-6">
-                                    <span id="tablet-check-in">11 November 2021</span>
+                                    <span id="tablet-check-in"></span>
                                 </div>
                                 <div class="col-3">
                                     <span class="ms-2 material-icons inline-icon">edit_note</span>
@@ -487,7 +298,7 @@
                         <div class="d-block d-lg-block d-md-none d-sm-block">
                             <p class="font-size-12 m-0">Check-Out</p>
                             <p class="font-size-14">
-                                <span id="desktop-check-out">11 November 2021</span>
+                                <span id="desktop-check-out"></span>
                                 <span class="ms-2 material-icons inline-icon">edit_note</span>
                             </p>
                         </div>
@@ -497,7 +308,7 @@
                                     <p class="font-size-12 m-0">Check-Out</p>
                                 </div>
                                 <div class="col-6">
-                                    <span id="tablet-check-out">11 November 2021</span>
+                                    <span id="tablet-check-out"></span>
                                 </div>
                                 <div class="col-3">
                                     <span class="ms-2 material-icons inline-icon">edit_note</span>
@@ -516,22 +327,28 @@
                                     <span class="material-icons inline-icon ms-4">info</span>
                                 </div>
                             </div>
+                            <div class="row font-size-14" id="d-services">
+
+                            </div>
                         </div>
                         <div class="d-none d-lg-none d-md-block">
                             <div class="row font-size-14">
                                 <div class="col-12">
-                                    <p class="font-size-12 mb-1" id="desktop-room-name">2 Bed apartment with sea-view
+                                    <p class="font-size-12 mb-1" id="tablet-room-name">2 Bed apartment with sea-view
                                     </p>
                                 </div>
                                 <div class="col-3">
-                                    <span id="desktop-room-unit">1x</span>
+                                    <span id="tablet-room-unit">1x</span>
                                 </div>
                                 <div class="col-6">
-                                    <span id="desktop-room-cost">3256 RSD</span>
+                                    <span id="tablet-room-cost">3256 RSD</span>
                                 </div>
                                 <div class="col-3 text-end">
                                     <span class="material-icons inline-icon">info</span>
                                 </div>
+                            </div>
+                            <div class="row font-size-14" id="t-services">
+
                             </div>
                         </div>
                         <div class="mt-2 mb-2">
@@ -793,6 +610,7 @@
 <script type="text/javascript" src="./assets/js/loader.js?v=1"></script>
 <script type="text/javascript" src="./assets/js/toaster.js?v=1"></script>
 <script type="text/javascript" src="./assets/js/booking.js?v=1"></script>
+<script type="text/javascript" src="./assets/js/extra.js?v=1"></script>
 <!-- site scripts end -->
 
 </html>

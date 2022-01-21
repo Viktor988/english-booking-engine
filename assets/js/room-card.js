@@ -25,6 +25,59 @@ const fetchRoomList = async () => {
     }, 500);
 }
 
+const setPolicy = (id_pricing_plans, pInd, ind) => {
+    getPolicy(id_pricing_plans).then((resp) => {
+        if (roomList[ind] && roomList[ind].pricing_plans && roomList[ind].pricing_plans[pInd]) {
+            roomList[ind].pricing_plans[pInd].policy = resp.policy;
+        }
+    })
+}
+
+const changeRoomUnit = (ind, operation) => {
+    if (operation === 'add') {
+        roomList[ind].unit++;
+    } else {
+        if (roomList[ind].unit !== 0) {
+            roomList[ind].unit--;
+        }
+    }
+
+    const pInd = roomList[ind].pricing_plans.findIndex(x => x.active === true);
+    const totalPrice = (pInd > -1) ? roomList[ind].pricing_plans[pInd].total_price : '0';
+    const d1 = document.getElementById(`d-room-unit-${ind}`)
+    if (d1) d1.innerHTML = roomList[ind].unit;
+    const d2 = document.getElementById(`d-no-of-room-${ind}`)
+    if (d2) d2.innerHTML = roomList[ind].unit;
+    const d3 = document.getElementById(`d-total-room-price-${ind}`)
+    if (d3) d3.innerHTML = totalPrice * roomList[ind].unit;
+
+    const t1 = document.getElementById(`t-room-unit-${ind}`)
+    if (t1) t1.innerHTML = roomList[ind].unit;
+    const t2 = document.getElementById(`t-no-of-room-${ind}`)
+    if (t2) t2.innerHTML = roomList[ind].unit;
+    const t3 = document.getElementById(`t-total-room-price-${ind}`)
+    if (t3) t3.innerHTML = totalPrice * roomList[ind].unit;
+
+    const m1 = document.getElementById(`m-room-unit-${ind}`)
+    if (m1) m1.innerHTML = roomList[ind].unit;
+    const m2 = document.getElementById(`m-no-of-room-${ind}`)
+    if (m2) m2.innerHTML = roomList[ind].unit;
+    const m3 = document.getElementById(`m-total-room-price-${ind}`)
+    if (m3) m3.innerHTML = totalPrice * roomList[ind].unit;
+}
+
+const addPolicyData = (screen, ind) => {
+    const room = roomList[ind];
+    let pInd = 0;
+    room.pricing_plans.forEach(itm => {
+        document.getElementById(`${screen}-p-label-${pInd}`).style.removeProperty('display');
+        const elem = document.getElementById(`${screen}-p-des-${pInd}`);
+        elem.style.removeProperty('display');
+        elem.innerHTML = itm.policy.policies_description;
+        pInd++;
+    });
+}
+
 const setDesktopRoomCard = (rooms) => {
     roomList = rooms;
     const elem = document.getElementById('room-card');
@@ -32,10 +85,10 @@ const setDesktopRoomCard = (rooms) => {
     const fromDate = moment(dfrom);
     const toDate = moment(dto);
     const noOfDays = dfrom && dto ? toDate.diff(fromDate, 'days') + 1 : 0;
-    console.log(noOfDays)
     roomList.forEach(itm => {
+        itm.unit = 1;
         const room = itm.room_details;
-        if(room) {
+        if (room) {
             console.log(itm)
             let imageSlider = '';
             let imageItem = '';
@@ -45,6 +98,43 @@ const setDesktopRoomCard = (rooms) => {
             for (houseroom of room.room_types_houserooms) {
                 total_beds += houseroom.beds.length;
             }
+            let priceList = '';
+            let defaultPrice = '';
+            let defaultUnitPrice = '';
+            if (itm.pricing_plans && itm.pricing_plans.length > 0) {
+                defaultPrice = itm.pricing_plans[0].name;
+                defaultUnitPrice = itm.pricing_plans[0].total_price;
+                itm.pricing_plans[0].active = true;
+
+                let pInd = 0;
+                itm.pricing_plans.forEach(async (price) => {
+                    setPolicy(price.id_pricing_plans, pInd, ind);
+                    const active = pInd === 0 ? 'active' : '';
+                    priceList += `
+                        <li class="dropdown-item ${active} pointer" onclick="onPriceSelect('d',${ind},${price.id_pricing_plans})">
+                            <div class="row">
+                                <div class="col-6 text-truncate">
+                                    <b class="font-size-14">${price.name}</b>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="font-size-10">Per night</span>
+                                    <b class="font-size-14">${price.price}</b>
+                                </div>
+                                <div class="col-12">
+                                    <span class="text-light-grey font-size-14"><b>Description</b></span>
+                                    <p class="font-size-12 mb-1 word-break">${price.description}</p>
+                                    <span class="text-light-grey font-size-14" id="d-p-label-${pInd}" style="display:none"><b>Cancellation
+                                            Policy</b>
+                                    </span>
+                                    <p class="font-size-12 word-break" id="d-p-des-${pInd}" style="display:none"></p>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                    pInd++;
+                })
+            }
+
             room.roomImages.forEach(img => {
                 const active = roomInd === 0 ? 'active' : '';
                 imageItem += `
@@ -53,13 +143,13 @@ const setDesktopRoomCard = (rooms) => {
                         alt="room" onclick="viewImage(this)" />
                 </div>
                 `;
-    
+
                 imageButton += `
                 <button type="button" data-bs-target="#roomImages${ind}" data-bs-slide-to="${roomInd}" class="${active} dot" aria-current="true" aria-label="Slide"></button>
                 `;
                 roomInd++;
             });
-    
+
             imageSlider += `
                 <div id="roomImages${ind}" class="carousel slide rounded-start h-100" data-bs-ride="carousel">
                     <div class="carousel-indicators">
@@ -68,9 +158,23 @@ const setDesktopRoomCard = (rooms) => {
                     <div class="carousel-inner slider-image-border-radius h-100" >
                         ${imageItem}
                     </div>
+                    <button class="carousel-control-prev" type="button"
+                        data-bs-target="#roomImages${ind}" data-bs-slide="prev">
+                        <span
+                            class="carousel-control-prev-icon absolute-left bg-mid-grey text-white p-2"
+                            aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button"
+                        data-bs-target="#roomImages${ind}" data-bs-slide="next">
+                        <span
+                            class="carousel-control-next-icon absolute-right bg-mid-grey text-white p-2"
+                            aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             `;
-    
+
             let amenitiesList = '';
             for (let i = 0; i < room.amenities.length; i++) {
                 if (i === 5) {
@@ -80,7 +184,7 @@ const setDesktopRoomCard = (rooms) => {
                     <span class="amenity-icon me-2" data-bs-toggle="tooltip" title="${all_amenities[room.amenities[i].name].name}">${all_amenities[room.amenities[i].name].image}</span>
                 `;
             }
-    
+
             elem.innerHTML += `
             <div class="card m-3 border-radius-16 shadow room-info-card">
                 <div class="row g-0">
@@ -155,32 +259,12 @@ const setDesktopRoomCard = (rooms) => {
                                 </div>
                                 <div class="col-md-3 p-1 text-center">
                                     <div class="dropdown pt-2">
-                                        <button class="btn bg-white font-size-13 text-dark dropdown-toggle p-1" type="button"
-                                            id="priceRateDropdDown1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span>Standard Rate</span>
+                                        <button class="btn bg-white font-size-13 text-dark dropdown-toggle p-1 text-truncate" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="addPolicyData('d',${ind})">
+                                            <span id="d-selected-price-${ind}">${defaultPrice}</span>
                                             <span class="material-icons inline-icon text-bold font-size-18">expand_more</span>
                                         </button>
-                                        <ul class="dropdown-menu selection-dropdown-lg" aria-labelledby="priceRateDropdDown1">
-                                            <li class="dropdown-item">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <b class="font-size-14">Standard Rate</b>
-                                                    </div>
-                                                    <div class="col-6 text-end">
-                                                        <span class="font-size-10">Per night</span>
-                                                        <b class="font-size-14">25</b>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <span class="text-light-grey font-size-14"><b>Description</b></span>
-                                                        <p class="font-size-12 mb-1">Here is the test
-                                                            description</p>
-                                                        <span class="text-light-grey font-size-14"><b>Cancellation
-                                                                Policy</b>
-                                                        </span>
-                                                        <p class="font-size-12">Here is the test policy</p>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                        <ul class="dropdown-menu price-list selection-dropdown-lg" aria-labelledby="priceRateDropdDown1">
+                                            ${priceList}
                                         </ul>
                                     </div>
                                 </div>
@@ -191,13 +275,13 @@ const setDesktopRoomCard = (rooms) => {
                                         </div>
                                         <div class="col-md-8">
                                             <div class="d-grid gap-3 d-md-block">
-                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 font-size-14" type="button">
+                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 font-size-14" type="button" onclick="changeRoomUnit(${ind},'remove')">
                                                     <span class="material-icons m-1 font-size-14">remove</span>
                                                 </button>
                                                 <button class="btn btn-sm bg-light-grey text-dark font-size-14" type="button">
-                                                    ${adults}
+                                                    <span id="d-room-unit-${ind}">${itm.unit}</span>
                                                 </button>
-                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 font-size-14" type="button">
+                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 font-size-14" type="button" onclick="changeRoomUnit(${ind},'add')">
                                                     <span class="material-icons m-1 font-size-14">add</span>
                                                 </button>
                                             </div>
@@ -206,34 +290,34 @@ const setDesktopRoomCard = (rooms) => {
                                 </div>
                                 <div class="col-md-2 ps-0">
                                     <button class="btn btn-dark ps-4 pe-4 border-0 position-absolute top-0 end-0 h-100"
-                                        onclick="window.location.href = 'booking.html'">
+                                        onclick="bookRoom(${ind})">
                                         <span class="fs-5">Book</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row ps-2 mt-2 mb-2" id="pd-${ind}" style="display:none;">
+                        <div class="row ps-2 mt-2" id="pd-${ind}" style="display:none;">
                             <div class="col-md-4 text-center">
                                 <span class="fs-5">${noOfDays} days</span>
                             </div>
                             <div class="col-md-3">
                                 <div class="row">
                                     <div class="col-5 p-0 text-end">
-                                        <div class="fs-6">25 <sup>EUR</sup></div>
+                                        <div class="fs-6" ><span id="d-ra-price-${ind}">${itm.price}</span> <sup>${settings.currency}</sup></div>
                                         <div class="font-size-10 text-light-grey">Per Night</div>
                                     </div>
                                     <div class="col-2 p-0 pt-1 text-center text-light-grey fw-lighter">/</div>
                                     <div class="col-5 p-0">
-                                        <div class="fs-6"><b>275</b> <sup>EUR</sup></div>
-                                        <div class="font-size-10 text-light-grey">Per Night</div>
+                                        <div class="fs-6"><b id="d-ra-total-price-${ind}">${defaultUnitPrice}</b> <sup>${settings.currency}</sup></div>
+                                        <div class="font-size-10 text-light-grey">Per Unit</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3 text-center">
-                                <span class="fs-5">2 rooms</span>
+                                <span class="fs-5"><span id="d-no-of-room-${ind}">${itm.unit}</span> room</span>
                             </div>
                             <div class="col-md-2 text-end pe-4">
-                                <div class="fs-6"><b>550</b> <sup>EUR</sup></div>
+                                <div class="fs-6"><b id="d-total-room-price-${ind}">${defaultUnitPrice}</b> <sup>${settings.currency}</sup></div>
                                 <div class="font-size-8 text-light-grey">For staying</div>
                             </div>
                         </div>
@@ -242,7 +326,7 @@ const setDesktopRoomCard = (rooms) => {
                 </div>
             </div>
             `;
-    
+
             ind++;
         }
     })
@@ -251,7 +335,9 @@ const setDesktopRoomCard = (rooms) => {
 const setTabletRoomCard = (rooms) => {
     roomList = rooms;
     const elem = document.getElementById('tablet-room-card');
-    const params = new URLSearchParams(location.search);
+    const fromDate = moment(dfrom);
+    const toDate = moment(dto);
+    const noOfDays = dfrom && dto ? toDate.diff(fromDate, 'days') + 1 : 0;
     let ind = 0;
     roomList.forEach(itm => {
         const room = itm.room_details;
@@ -262,12 +348,50 @@ const setTabletRoomCard = (rooms) => {
             for (houseroom of room.room_types_houserooms) {
                 total_beds += houseroom.beds.length;
             }
+
+            let priceList = '';
+            let defaultPrice = '';
+            let defaultUnitPrice = '';
+            if (itm.pricing_plans && itm.pricing_plans.length > 0) {
+                defaultPrice = itm.pricing_plans[0].name;
+                defaultUnitPrice = itm.pricing_plans[0].total_price;
+                itm.pricing_plans[0].active = true;
+
+                let pInd = 0;
+                itm.pricing_plans.forEach(price => {
+                    setPolicy(price.id_pricing_plans, pInd, ind);
+                    const active = pInd === 0 ? 'active' : '';
+                    priceList += `
+                        <li class="dropdown-item ${active}" onclick="onPriceSelect('t',${ind},${price.id_pricing_plans})">
+                            <div class="row">
+                                <div class="col-6 text-truncate">
+                                    <b class="font-size-14">${price.name}</b>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="font-size-10">Per night</span>
+                                    <b class="font-size-14">${price.price}</b>
+                                </div>
+                                <div class="col-12">
+                                    <span class="text-light-grey font-size-14"><b>Description</b></span>
+                                    <p class="font-size-12 mb-1 word-break">${price.description}</p>
+                                    <span class="text-light-grey font-size-14" id="t-p-label-${pInd}" style="display:none"><b>Cancellation
+                                            Policy</b>
+                                    </span>
+                                    <p class="font-size-12 word-break" id="t-p-des-${pInd}" style="display:none"></p>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                    pInd++;
+                })
+            }
+
             room.roomImages.forEach(img => {
                 const active = roomInd === 0 ? 'active' : '';
                 imageItem += `
                 <div class="carousel-item h-100 ` + active + `">
                     <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius-tab"
-                        alt="room" />
+                        alt="room" onclick="viewImage(this)" />
                 </div>
                 `;
                 roomInd++;
@@ -346,134 +470,114 @@ const setTabletRoomCard = (rooms) => {
                                     </div>
                                 </div>
                             </div>
-    
-                            <!-- availability option start -->
-                            <!-- <div class="col-12 bg-light-grey ps-1 pe-1 position-relative">
-                                <div class="row">
-                                    <div class="col-md-4 pb-1">
-                                        <div class="row">
-                                            <div class="col-5 p-0 ps-3">
-                                                <span class="font-size-12">Check-In</span><br>
-                                                <b class="font-size-14">11 November</b>
-                                            </div>
-                                            <div class="col-2 p-0">
-                                                <span class="material-icons fs-5 mt-3 text-occur-yellow">east</span>
-                                            </div>
-                                            <div class="col-5 p-0">
-                                                <span class="font-size-12">Check-Out</span><br>
-                                                <b class="font-size-14">11 November</b>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 p-1 text-center">
-                                        <div class="dropdown pt-2">
-                                            <button class="btn bg-white fs-7 text-dark dropdown-toggle p-1"
-                                                type="button" id="priceRateDropdDown1" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <span>Standard Rate</span>
-                                                <span
-                                                    class="material-icons inline-icon text-bold fs-4">expand_more</span>
-                                            </button>
-                                            <ul class="dropdown-menu selection-dropdown-lg"
-                                                aria-labelledby="priceRateDropdDown1">
-                                                <li class="dropdown-item">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <b class="fs-5">Standard Rate</b>
-                                                        </div>
-                                                        <div class="col-6 text-end">
-                                                            <span class="font-size-10">Per night</span>
-                                                            <b class="fs-5">25</b>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <span
-                                                                class="text-light-grey fs-6"><b>Description</b></span>
-                                                            <p class="font-size-12 mb-1">Here is the test
-                                                                description</p>
-                                                            <span class="text-light-grey fs-6"><b>Cancellation
-                                                                    Policy</b>
-                                                            </span>
-                                                            <p class="font-size-12">Here is the test policy</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 p-1">
-                                        <div class="row pt-1">
-                                            <div class="col-md-4 fs-6 pt-2">
-                                                <span>Unit</span>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="d-grid gap-3 d-md-block">
-                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                        type="button">
-                                                        <span class="material-icons m-1 fs-6">remove</span>
-                                                    </button>
-                                                    <button class="btn btn-sm bg-light-grey text-dark fs-6"
-                                                        type="button">
-                                                        2
-                                                    </button>
-                                                    <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
-                                                        type="button">
-                                                        <span class="material-icons m-1 fs-6">add</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button
-                                            class="btn btn-dark ps-4 pe-4 border-0 position-absolute top-0 end-0 h-100"
-                                            onclick="window.location.href = 'booking.html'">
-                                            <span class="fs-5">Book</span>
-                                        </button>
-                                    </div>
+                        </div>
+
+                        <!-- view availability start -->
+                        <div class="col-12 bg-light-grey p-2 mb-4" id="t-av-${ind}">
+                            <div class="row p-1">
+                                <div class="col-8">
+                                    <button class="btn btn-dark btn-sm border-radius-8 fs-6" onclick="viewAvailabilityTablet(${ind})">See
+                                        availability</button>
+                                </div>
+                                <div class="col-4 pt-1" id="t-date-validation-${ind}" style="display:none;">
+                                    <span class="fs-6">Pick a date to get rates</span>
                                 </div>
                             </div>
-                            <div class="row ps-2 mt-2 mb-2">
-                                <div class="col-md-4 text-center">
-                                    <span class="fs-5">11 days</span>
-                                </div>
-                                <div class="col-md-3">
+                        </div>
+                        <!-- view availability end -->
+
+                        <!-- availability option start -->
+                        <div class="col-12 bg-light-grey ps-1 pe-1 position-relative" id="tav-${ind}" style="display:none">
+                            <div class="row">
+                                <div class="col-md-4 pb-1">
                                     <div class="row">
-                                        <div class="col-5 p-0 text-end">
-                                            <div class="fs-6">25 <sup>EUR</sup></div>
-                                            <div class="font-size-10 text-light-grey">Per Night</div>
+                                        <div class="col-5 p-0 ps-3">
+                                            <span class="font-size-12">Check-In</span><br>
+                                            <b class="font-size-14">${moment(dfrom).format('DD MMMM')}</b>
                                         </div>
-                                        <div class="col-2 p-0 pt-1 text-center text-light-grey fw-lighter">/</div>
+                                        <div class="col-2 p-0">
+                                            <span class="material-icons fs-5 mt-3 text-occur-yellow">east</span>
+                                        </div>
                                         <div class="col-5 p-0">
-                                            <div class="fs-6"><b>275</b> <sup>EUR</sup></div>
-                                            <div class="font-size-10 text-light-grey">Per Night</div>
+                                            <span class="font-size-12">Check-Out</span><br>
+                                            <b class="font-size-14">${moment(dto).format('DD MMMM')}</b>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 text-center">
-                                    <span class="fs-5">2 rooms</span>
+                                <div class="col-md-3 p-1 text-center">
+                                    <div class="dropdown pt-2">
+                                        <button class="btn bg-white fs-7 text-dark dropdown-toggle p-1 text-truncate"
+                                            type="button" id="priceRateDropdDown1" data-bs-toggle="dropdown"
+                                            aria-expanded="false" onclick="addPolicyData('t',${ind})" style="max-width:200px;">
+                                            <span id="t-selected-price-${ind}">${defaultPrice}</span>
+                                            <span
+                                                class="material-icons inline-icon text-bold fs-4">expand_more</span>
+                                        </button>
+                                        <ul class="dropdown-menu selection-dropdown-lg"
+                                            aria-labelledby="priceRateDropdDown1">
+                                            ${priceList}
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="col-md-2 text-end pe-4">
-                                    <div class="fs-6"><b>550</b> <sup>EUR</sup></div>
-                                    <div class="font-size-8 text-light-grey">For staying</div>
+                                <div class="col-md-3 p-1">
+                                    <div class="row pt-1">
+                                        <div class="col-md-4 fs-6 pt-2">
+                                            <span>Unit</span>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="d-grid gap-3 d-md-block">
+                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                    type="button" onclick="changeRoomUnit(${ind},'remove')">
+                                                    <span class="material-icons m-1 fs-6">remove</span>
+                                                </button>
+                                                <button class="btn btn-sm bg-light-grey text-dark fs-6"
+                                                    type="button">
+                                                    <span id="t-room-unit-${ind}">${itm.unit}</span>
+                                                </button>
+                                                <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                    type="button" onclick="changeRoomUnit(${ind},'add')">
+                                                    <span class="material-icons m-1 fs-6">add</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div> -->
-                            <!-- availability option start -->
-                        </div>
-                    </div>
-    
-                    <!-- view availability start -->
-                    <div class="col-12 bg-light-grey p-2 mb-4">
-                        <div class="row p-1">
-                            <div class="col-8">
-                                <button class="btn btn-dark btn-sm border-radius-8 fs-6">See
-                                    availability</button>
-                            </div>
-                            <div class="col-4 pt-1" id="t-date-validation-${ind}" style="display:none;">
-                                <span class="fs-6">Pick a date to get rates</span>
+                                <div class="col-md-2">
+                                    <button
+                                        class="btn btn-dark ps-4 pe-4 border-0 position-absolute top-0 end-0 h-100"
+                                        onclick="bookRoom(${ind})">
+                                        <span class="fs-5">Book</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        <div class="row ps-2 mt-2 mb-2" id="tpd-${ind}" style="display:none">
+                            <div class="col-md-4 text-center">
+                                <span class="fs-5">${noOfDays} Days</span>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-5 p-0 text-end">
+                                        <div class="fs-6"><span id="t-ra-price-${ind}">${itm.price}</span> <sup>${settings.currency}</sup></div>
+                                        <div class="font-size-10 text-light-grey">Per Night</div>
+                                    </div>
+                                    <div class="col-2 p-0 pt-1 text-center text-light-grey fw-lighter">/</div>
+                                    <div class="col-5 p-0">
+                                        <div class="fs-6"><b id="d-ra-total-price-${ind}">${defaultUnitPrice}</b> <sup>${settings.currency}</sup></div>
+                                        <div class="font-size-10 text-light-grey">Per Unit</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <span class="fs-5"><span id="t-no-of-room-${ind}">${itm.unit}</span> room</span>
+                            </div>
+                            <div class="col-md-2 text-end pe-4">
+                                <div class="fs-6"><b id="t-total-room-price-${ind}">${defaultUnitPrice}</b> <sup>${settings.currency}</sup></div>
+                                <div class="font-size-8 text-light-grey">For staying</div>
+                            </div>
+                        </div>
+                        <!-- availability option start -->
                     </div>
-                    <!-- view availability end -->
                 </div>
             `;
 
@@ -485,10 +589,13 @@ const setTabletRoomCard = (rooms) => {
 const setMobileRoomCard = (rooms) => {
     roomList = rooms;
     const elem = document.getElementById('mobile-room-card');
+    const fromDate = moment(dfrom);
+    const toDate = moment(dto);
+    const noOfDays = dfrom && dto ? toDate.diff(fromDate, 'days') + 1 : 0;
     let ind = 0;
     roomList.forEach(itm => {
         const room = itm.room_details;
-        if(room) {
+        if (room) {
             let imageItem = '';
             let roomInd = 0;
             let total_beds = 0;
@@ -500,12 +607,12 @@ const setMobileRoomCard = (rooms) => {
                 imageItem += `
                 <div class="carousel-item h-100 ` + active + `">
                     <img src="${img.url}" class="d-block w-100 h-100 slider-image-border-radius-mobile"
-                        alt="room" />
+                        alt="room" onclick="viewImage(this)" />
                 </div>
                 `;
                 roomInd++;
             });
-    
+
             let amenitiesList = '';
             for (let i = 0; i < room.amenities.length; i++) {
                 if (i === 5) {
@@ -515,7 +622,44 @@ const setMobileRoomCard = (rooms) => {
                     <span class="amenity-icon me-2" data-bs-toggle="tooltip" title="${all_amenities[room.amenities[i].name].name}">${all_amenities[room.amenities[i].name].image}</span>
                 `;
             }
-    
+
+            let priceList = '';
+            let defaultPrice = '';
+            let defaultUnitPrice = '';
+            if (itm.pricing_plans && itm.pricing_plans.length > 0) {
+                defaultPrice = itm.pricing_plans[0].name;
+                defaultUnitPrice = itm.pricing_plans[0].total_price;
+                itm.pricing_plans[0].active = true;
+
+                let pInd = 0;
+                itm.pricing_plans.forEach(price => {
+                    setPolicy(price.id_pricing_plans, pInd, ind);
+                    const active = pInd === 0 ? 'active' : '';
+                    priceList += `
+                        <li class="dropdown-item ${active}" onclick="onPriceSelect('m',${ind},${price.id_pricing_plans})">
+                            <div class="row">
+                                <div class="col-6 text-truncate">
+                                    <b class="font-size-14">${price.name}</b>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="font-size-10">Per night</span>
+                                    <b class="font-size-14">${price.price}</b>
+                                </div>
+                                <div class="col-12">
+                                    <span class="text-light-grey font-size-14"><b>Description</b></span>
+                                    <p class="font-size-12 mb-1 word-break">${price.description}</p>
+                                    <span class="text-light-grey font-size-14" id="m-p-label-${pInd}" style="display:none"><b>Cancellation
+                                            Policy</b>
+                                    </span>
+                                    <p class="font-size-12 word-break" id="m-p-des-${pInd}" style="display:none"></p>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                    pInd++
+                })
+            }
+
             elem.innerHTML += `
                 <div class="card mb-3 ms-3 me-3" style="border-radius: 12px;">
                     <div class="card-img-top position-relative">
@@ -567,12 +711,109 @@ const setMobileRoomCard = (rooms) => {
                             ${amenitiesList}
                         </div>
     
-                        <button type="button" class="btn btn-outline-dark mt-3 fw-bold" style="border: 2px solid;">Check availability</button>
+                        <button type="button" id="m-av-${ind}" class="btn btn-outline-dark mt-3 fw-bold" style="border: 2px solid;" onclick="viewAvailabilityMobile(${ind})">Check availability</button>
                         <div class="fs-6 mt-3 fw-bold" id="m-date-validation-${ind}" style="display:none;">Pick a date to get rates</div>
+
+                        <!-- availability option start -->
+                        <div class="col-12 ps-1 pe-1" id="mav-${ind}" style="display:none">
+                            <div class="row">
+                                <div class="col-12 pb-2 pt-2 text-center">
+                                    <div class="row">
+                                        <div class="col-5 p-0 ps-3">
+                                            <span class="font-size-12">Check-In</span><br>
+                                            <b class="font-size-14">${moment(dfrom).format('DD MMMM')}</b>
+                                        </div>
+                                        <div class="col-2 p-0">
+                                            <span class="material-icons fs-5 mt-3 text-occur-yellow">east</span>
+                                        </div>
+                                        <div class="col-5 p-0">
+                                            <span class="font-size-12">Check-Out</span><br>
+                                            <b class="font-size-14">${moment(dto).format('DD MMMM')}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 p-1">
+                                    <div class="row p-2 text-center bg-light-grey">
+                                        <div class="col-4">
+                                            <div class="dropdown">
+                                                <button class="btn bg-white font-size-14 text-dark dropdown-toggle p-1 text-truncate"
+                                                    type="button" id="priceRateDropdDown1" data-bs-toggle="dropdown"
+                                                    aria-expanded="false" onclick="addPolicyData('m',${ind})" style="max-width:150px;">
+                                                    <span id="m-selected-price-${ind}">${defaultPrice}</span>
+                                                    <span
+                                                        class="material-icons inline-icon text-bold font-size-16">expand_more</span>
+                                                </button>
+                                                <ul class="dropdown-menu selection-dropdown-lg"
+                                                    aria-labelledby="priceRateDropdDown1">
+                                                   ${priceList}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 font-size-12 p-0 text-end">
+                                            <button class="btn btn-sm bg-light-grey text-dark font-size-14"
+                                                type="button" disabled="true">
+                                                <span class="text-dark">Unit</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-2 font-size-12 p-0">
+                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                type="button" onclick="changeRoomUnit(${ind},'remove')">
+                                                <span class="material-icons m-1 fs-6">remove</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-1 font-size-12 p-0">
+                                            <button class="btn btn-sm bg-light-grey text-dark font-size-14"
+                                                type="button" disabled="true">
+                                                <span class="text-dark" id="m-room-unit-${ind}">${itm.unit}</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-2 font-size-12 p-0">
+                                            <button class="btn btn-outline-dark btn-sm p-0 ps-1 pe-1 fs-6"
+                                                type="button" onclick="changeRoomUnit(${ind},'add')">
+                                                <span class="material-icons m-1 fs-6">add</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <button
+                                        class="btn btn-dark ps-4 pe-4 border-0 w-100"
+                                        onclick="bookRoom(${ind})">
+                                        <span class="fs-5">Book</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-1 mt-2 mb-2" id="mpd-${ind}" style="display:none">
+                            <div class="col-3">
+                                <span class="font-size-14">${noOfDays} days</span>
+                            </div>
+                            <div class="col-3 p-0">
+                                <div class="row">
+                                    <div class="col-5 p-0 text-end">
+                                        <div class="font-size-14"><span id="m-ra-price-${ind}">${itm.price}</span> <sup>${settings.currency}</sup></div>
+                                        <div class="font-size-10 text-light-grey">Per Night</div>
+                                    </div>
+                                    <div class="col-2 p-0 pt-1 text-center text-light-grey fw-lighter">/</div>
+                                    <div class="col-5 p-0">
+                                        <div class="font-size-14"><b id="d-ra-total-price-${ind}">${defaultUnitPrice}</b> <sup>${settings.currency}</sup></div>
+                                        <div class="font-size-10 text-light-grey">Per Unit</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 text-center">
+                                <span class="fs-5"><span id="m-no-of-room-${ind}">${itm.unit}</span> room</span>
+                            </div>
+                            <div class="col-3 text-end">
+                                <div class="font-size-14"><b id="m-total-room-price-${ind}">${defaultUnitPrice}</b> <sup>${settings.currency}</sup></div>
+                                <div class="font-size-8 text-light-grey">For staying</div>
+                            </div>
+                        </div>
+                        <!-- availability option start -->
                     </div>
                 </div>
             `;
-    
+
             ind++;
         }
     })
@@ -611,6 +852,7 @@ const viewRoomDetail = (ind) => {
 
     document.getElementById('ri-indicator').innerHTML = indicators;
     document.getElementById('ri-images').innerHTML = images;
+    document.getElementById('m-ri-images').innerHTML = images;
 
     let amenities = `
         <div class="col-md-12 mt-2 mb-2">
@@ -627,6 +869,7 @@ const viewRoomDetail = (ind) => {
     });
 
     document.getElementById('ri-am').innerHTML = amenities;
+    document.getElementById('t-ri-am').innerHTML = amenities;
 
     const room_info = `
         <span class="font-size-13 p-2 border-end">
@@ -643,8 +886,58 @@ const viewRoomDetail = (ind) => {
 
     document.getElementById('ri-info').innerHTML = room_info;
     document.getElementById('ri-description').innerHTML = room.description;
+    document.getElementById('ri-oc').innerHTML = room.occupancy;
+    document.getElementById('ri-bed').innerHTML = total_beds;
+    document.getElementById('ri-ar').innerHTML = room.area;
 
-    settings.currency
+    let pricing = '';
+    let pInd = 0;
+    room.pricing_plans.forEach(itm => {
+        const icon = pInd === 0 ? 'close' : 'add';
+        const style = pInd === 0 ? '' : 'style="display:none"';
+        pricing += `
+            <div class="card mb-2">
+                <div lass="card-header border-bottom-0">
+                    <div class="row p-2">
+                        <div class="col-md-6 ps-4 pe-0">
+                            <b class="font-size-14 text-secondary">${itm.name}</b>
+                        </div>
+                        <div class="col-md-5">
+                            <span class="font-size-14 text-secondary">
+                                <b class="text-dark">${itm.price} ${settings.currency}</b> Per night
+                            </span>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm bg-light-grey font-size-12"
+                        style="position: absolute; top: 0%; right: 0%;" onclick="viewPricingDetails(${pInd},${ind})">
+                        <span class="material-icons text-dark-grey" id="p-btn-${pInd}">${icon}</span>
+                    </button>
+                </div>
+                <div class="card-body" id="ri-price-detail-${pInd}" ${style}>
+                    <span class="text-light-grey"><b>Description</b></span>
+                    <p class="font-size-12">${itm.description}</p>
+                    <span class="text-light-grey mt-2"><b>Cancellation Policy</b>
+                    </span>
+                    <p class="font-size-12">${itm.policy.policies_description}</p>
+                </div>
+            </div>
+        `;
+        pInd++;
+    });
+    document.getElementById('ri-pricing').innerHTML = pricing;
+}
+
+const viewPricingDetails = (pInd, ind) => {
+    const activeInd = roomList[ind].pricing_plans.findIndex(x => x.active === true);
+    if (pInd === activeInd) return
+    if (activeInd > -1) {
+        roomList[ind].pricing_plans[activeInd].active = false;
+        $(`#ri-price-detail-${activeInd}`).hide(400);
+        document.getElementById(`p-btn-${activeInd}`).innerHTML = 'add';
+    }
+    roomList[ind].pricing_plans[pInd].active = true;
+    $(`#ri-price-detail-${pInd}`).show(400);
+    document.getElementById(`p-btn-${pInd}`).innerHTML = 'close';
 
 }
 
@@ -652,19 +945,52 @@ const viewAvailability = (ind) => {
     if (!dfrom || !dto) {
         const dElem = document.getElementById(`d-date-validation-${ind}`);
         if (dElem) dElem.style.removeProperty('display');
-
-        const tElem = document.getElementById(`t-date-validation-${ind}`);
-        if (tElem) tElem.style.removeProperty('display');
-
-        const mElem = document.getElementById(`m-date-validation-${ind}`);
-        if (mElem) mElem.style.removeProperty('display');
         return;
     }
-    document.getElementById('d-av-' + ind).style.display = 'none';
+    const dvElem = document.getElementById('d-av-' + ind);
+    if (dvElem) dvElem.style.display = 'none';
     const elem = document.getElementById('av-' + ind);
     const elem2 = document.getElementById('pd-' + ind);
+    if (elem) elem.style.removeProperty('display')
+    if (elem2) elem2.style.removeProperty('display')
+}
+
+const viewAvailabilityTablet = (ind) => {
+    if (!dfrom || !dto) {
+        const tElem = document.getElementById(`t-date-validation-${ind}`);
+        if (tElem) tElem.style.removeProperty('display');
+        return;
+    }
+    document.getElementById('t-av-' + ind).style.display = 'none';
+    const elem = document.getElementById('tav-' + ind);
+    const elem2 = document.getElementById('tpd-' + ind);
     elem.style.removeProperty('display')
     elem2.style.removeProperty('display')
+}
+
+const viewAvailabilityMobile = (ind) => {
+    if (!dfrom || !dto) {
+        const tElem = document.getElementById(`m-date-validation-${ind}`);
+        if (tElem) tElem.style.removeProperty('display');
+        return;
+    }
+    document.getElementById('m-av-' + ind).style.display = 'none';
+    const elem = document.getElementById('mav-' + ind);
+    const elem2 = document.getElementById('mpd-' + ind);
+    elem.style.removeProperty('display')
+    elem2.style.removeProperty('display')
+}
+
+const onPriceSelect = (screen, ind, id_pricing_plans) => {
+    const room = roomList[ind];
+    const priceInd = room.pricing_plans.findIndex(x => x.id_pricing_plans == id_pricing_plans);
+    if (priceInd > -1) {
+        room.pricing_plans.forEach(itm => {
+            itm.active = false;
+        })
+        document.getElementById(screen + '-selected-price-' + ind).innerHTML = room.pricing_plans[priceInd].name;
+        room.pricing_plans[priceInd].active = true;
+    }
 }
 
 let all_amenities = {};

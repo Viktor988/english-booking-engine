@@ -99,7 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-8 col-sm-12 p-2">
+                <div class="col-lg-9 col-md-8 col-sm-12">
                     <div class="row">
                         <div class="col-12">
                             <span id="rating">
@@ -195,7 +195,7 @@
     </header>
 
     <!-- Main content start -->
-    <section class="container-fluid p-4">
+    <section class="container-fluid p-0 pt-4 p-md-4 p-lg-4">
         <div class="row">
             <div class="col-12 col-lg-9 col-md-12">
                 <!-- Selection section start -->
@@ -309,7 +309,8 @@
                 </section>
                 <!-- Room card for desktop-->
 
-                <section class="mt-3 d-none d-lg-none d-md-block" id="tablet-room-card" style="display: none;"></section>
+                <section class="mt-3 d-none d-lg-none d-md-block" id="tablet-room-card" style="display: none;">
+                </section>
 
                 <section class="mt-3 d-block d-sm-block d-md-none d-lg-none" id="mobile-room-card"
                     style="display: none;"></section>
@@ -462,8 +463,8 @@
 </body>
 
 <div class="modal fade" id="roomInfoModal" tabindex="-1" aria-labelledby="roomName" aria-hidden="true">
-    <div
-        class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl modal-fullscreen-sm-down modal-fullscreen-md-down">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl modal-fullscreen-sm-down modal-fullscreen-md-down"
+        style="min-width: 90vw !important;">
         <div class="modal-content border-radius-16">
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title" id="roomName"></h5>
@@ -474,7 +475,8 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-6 col-12">
-                        <div id="ri-image-1" class="carousel slide border-radius-10" data-bs-ride="carousel">
+                        <div id="ri-image-1" class="carousel slide border-radius-10 d-none d-md-block d-lg-block"
+                            data-bs-ride="carousel">
                             <div class="carousel-indicators" id="ri-indicator">
                             </div>
                             <div class="carousel-inner border-radius-10" id="ri-images">
@@ -492,18 +494,52 @@
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
-                        <div class="row mt-2" id="ri-am">
+                        <div id="m-ri-image-1" class="carousel slide border-radius-10 d-block d-md-none d-lg-none"
+                            data-bs-ride="carousel">
+                            <div class="text-white text-center"
+                                style="position: absolute; z-index: 999; bottom: 5%; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 100%;">
+                                <span class="font-size-12 p-2 border-end">
+                                    <span class="material-icons inline-icon">people</span>
+                                    <span class="font-size-11" id="ri-oc"></span>
+                                </span>
+                                <span class="font-size-12 p-2 border-end">
+                                    <span class="material-icons inline-icon">bed</span>
+                                    <span class="font-size-11" id="ri-bed"></span>
+                                </span>
+                                <span class="font-size-12 p-2">
+                                    <span class="material-icons inline-icon">home</span>
+                                    <span class="font-size-11"><span id="ri-ar"></span>m<sup>2</sup></span>
+                                </span>
+                            </div>
+                            <div class="carousel-inner border-radius-10" id="m-ri-images">
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#m-ri-image-1"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon absolute-left bg-mid-grey text-white p-2"
+                                    aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#m-ri-image-1"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon absolute-right bg-mid-grey text-white p-2"
+                                    aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <div class="d-none d-lg-block d-md-none">
+                            <div class="row mt-2" id="ri-am">
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-lg-6 col-12 p-4">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 d-none d-lg-block d-md-block">
                                 <h4><b>Details</b></h4>
                             </div>
-                            <div class="room-info col-6" id="ri-info">
+                            <div class="room-info col-6 d-none d-lg-block d-md-block" id="ri-info">
                             </div>
-                            <div class="col-6 text-end">
+                            <div class="col-6 text-end d-none d-lg-block d-md-block">
                                 <span class="font-size-12">
                                     Room:
                                     <span class="material-icons text-secondary inline-icon ms-1 me-1">bed</span>
@@ -512,165 +548,26 @@
                             </div>
                             <div class="col-md-12">
                                 <h4 class="mt-4 mb-2"><b>Description</b></h4>
+                                <span class="font-size-12 d-block d-md-none d-lg-none mb-2 mt-1">
+                                    Room:
+                                    <span class="material-icons text-secondary inline-icon ms-1 me-1">bed</span>
+                                    <b class="text-secondary">1 Extra large double bed</b>
+                                </span>
                                 <p class="text-secondary font-size-12" id="ri-description">
                                 </p>
                             </div>
+                            <div class="col-12 d-block d-lg-none">
+                                <div class="row mt-2" id="t-ri-am">
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <h4 class="mt-4 mb-2"><b>Pricing</b></h4>
-                                <div class="card">
-                                    <div lass="card-header border-bottom-0">
-                                        <div class="row p-2">
-                                            <div class="col-md-6 ps-4">
-                                                <b class="font-size-14 text-secondary">Standard Rate</b>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <span class="font-size-14 text-secondary">
-                                                    <b class="text-dark">25 EUR</b> Per night
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-sm bg-light-grey font-size-12"
-                                            style="position: absolute; top: 0%; right: 0%;">
-                                            <span class="material-icons text-dark-grey">close</span>
-                                        </button>
-                                    </div>
-                                    <div class="card-body">
-                                        <span class="text-light-grey"><b>Description</b></span>
-                                        <p class="font-size-12">Here is the test description</p>
-                                        <span class="text-light-grey mt-2"><b>Cancellation Policy</b>
-                                        </span>
-                                        <p class="font-size-12">Here is the test policy</p>
-                                    </div>
-                                </div>
-
-                                <!-- <div class="accordion" id="accordionPanelsStayOpenExample">
-                                    <div class="accordion-item">
-                                        <div class="accordion-header" id="panelsStayOpen-headingOne">
-                                            <div class="row ps-4">
-                                                <div class="col-5 p-2 ps-3">
-                                                    <b class="font-size-14 text-secondary">Standard Rate</b>
-                                                </div>
-                                                <div class="col-5 p-2">
-                                                    <span class="font-size-14 text-secondary">
-                                                        <b class="text-dark">25 EUR</b> Per night
-                                                    </span>
-                                                </div>
-                                                <div class="col-2">
-                                                    <button class="accordion-button bg-light-grey" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#panelsStayOpen-collapseOne"
-                                                        aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                                        </butt>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                            aria-labelledby="panelsStayOpen-headingOne">
-                                            <div class="accordion-body">
-                                                <strong>This is the first item's accordion body.</strong> It is shown by
-                                                default, until the collapse plugin adds the appropriate classes that we
-                                                use to style each element. These classes control the overall appearance,
-                                                as well as the showing and hiding via CSS transitions. You can modify
-                                                any of this with custom CSS or overriding our default variables. It's
-                                                also worth noting that just about any HTML can go within the
-                                                <code>.accordion-body</code>, though the transition does limit overflow.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
-                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                                Accordion Item #2
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                                            aria-labelledby="panelsStayOpen-headingTwo">
-                                            <div class="accordion-body">
-                                                <strong>This is the second item's accordion body.</strong> It is hidden
-                                                by default, until the collapse plugin adds the appropriate classes that
-                                                we use to style each element. These classes control the overall
-                                                appearance, as well as the showing and hiding via CSS transitions. You
-                                                can modify any of this with custom CSS or overriding our default
-                                                variables. It's also worth noting that just about any HTML can go within
-                                                the <code>.accordion-body</code>, though the transition does limit
-                                                overflow.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
-                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                                Accordion Item #3
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                                            aria-labelledby="panelsStayOpen-headingThree">
-                                            <div class="accordion-body">
-                                                <strong>This is the third item's accordion body.</strong> It is hidden
-                                                by default, until the collapse plugin adds the appropriate classes that
-                                                we use to style each element. These classes control the overall
-                                                appearance, as well as the showing and hiding via CSS transitions. You
-                                                can modify any of this with custom CSS or overriding our default
-                                                variables. It's also worth noting that just about any HTML can go within
-                                                the <code>.accordion-body</code>, though the transition does limit
-                                                overflow.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
+                                <div id="ri-pricing"></div>
                             </div>
-                            <!-- <div class="col-md-12 mt-4">
-                                <div class="card">
-                                    <div lass="card-header border-bottom-0">
-                                        <div class="row p-1">
-                                            <div class="col-md-6 ps-4">
-                                                <b class="font-size-14 text-secondary">Non Refundable</b>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <span class="font-size-14 text-secondary">
-                                                    <b class="text-dark">25 EUR</b> Per night
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-sm bg-light-grey font-size-12"
-                                            style="position: absolute; top: 0%; right: 0%; height: 100%;">
-                                            <span class="material-icons text-dark-grey">add</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 mt-2">
-                                <div class="card">
-                                    <div lass="card-header border-bottom-0">
-                                        <div class="row p-1">
-                                            <div class="col-md-6 ps-4">
-                                                <b class="font-size-14 text-secondary">Stay more, Pay more</b>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <span class="font-size-14 text-secondary">
-                                                    <b class="text-dark">25 EUR</b> Per night
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-sm bg-light-grey font-size-12"
-                                            style="position: absolute; top: 0%; right: 0%; height: 100%;">
-                                            <span class="material-icons text-dark-grey">add</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div> -->
         </div>
     </div>
 </div>
